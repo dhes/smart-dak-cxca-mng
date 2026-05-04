@@ -1,0 +1,14 @@
+{
+    "package-id": "smart.who.int.cxca",
+    "title": "SMART DAK Cervical Cancer Screening",
+    "category": "base",
+    "introduction": "Digital Adaptation Kit for cervical cancer screening, authored as a community contribution following WHO SMART Guidelines conventions. Uses the Mongolia Ministry of Health Order A/641 (2020) as a country-adapter case study.",
+    "version": "0.0.1",
+    "desc": "0.0.1 pre-release — Phase 1 scaffolding only",
+    "mode": "milestone",
+    "path": "http://smart.who.int/cxca/v0.0.1",
+    "ci-build": "http://dhes.github.io/smart-dak-cxca",
+    "first": true,
+    "status": "draft",
+    "sequence": "Releases"
+}
