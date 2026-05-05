@@ -8,7 +8,8 @@ version: 0.0.1
 fhirVersion: 4.0.1 # https://www.hl7.org/fhir/valueset-FHIR-version.html
 copyrightYear: 2026+
 releaseLabel: ci-build # ci-build | draft | qa-preview | ballot | trial-use | release | update | normative+trial-use. The release label should be set to "release" for a release candidate, , in a branch dedicated for the release candidate..
-# license: CC0-1.0 # https://www.hl7.org/fhir/valueset-spdx-license.html
+experimental: false
+license: CC-BY-SA-3.0-IGO # fixed by SGImplementationGuide profile
 # jurisdiction: urn:iso:std:iso:3166#US "United States of America" # https://www.hl7.org/fhir/valueset-jurisdiction.html
 publisher:
   name: Dan Heslinga (independent contributor)
@@ -18,7 +19,7 @@ publisher:
 
 meta:
   profile:
-    - http://smart.who.int/base/StructureDefinition/SMARTImplementationGuide
+    - http://smart.who.int/base/StructureDefinition/SGImplementationGuide
 
 pages:
   index.md:
@@ -279,8 +280,8 @@ dependencies:
   # is authored in Phase 5, with attribution to the upstream CC0-1.0 source.
 
 
-parameters: 
-  path-pages: 
+parameters:
+  path-pages:
   - input/dictionary
   - input/decision-logic
   - input/business-processes
@@ -288,3 +289,6 @@ parameters:
   - input/indicators
   - input/system-requirements
   - input/testing
+  - input/cql
+  path-binary:
+  - input/cql
