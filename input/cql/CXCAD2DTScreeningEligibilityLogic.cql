@@ -36,7 +36,29 @@ define "Client age":
  *
  * @decision: CXCA.D2 — Cervical cancer screening eligibility
  * @output: CXCA.D#DE4 "Due for HPV screening"
- * @source: A/641 (2020) §2.2 — first binding HPV screening age is 35
+ * @bindingness: legal — the binding regulatory rule
+ * @source: A/641 (2020) §2.2 — first binding HPV screening age is 35.
+ *   This rule also matches the WHO 2030 elimination strategy's screen-by-35
+ *   target, so it serves both the WHO baseline and Mongolia legal positions.
  */
 define "Client is due for HPV screening at age 35":
   "Client age" = 35
+
+/*
+ * Eligibility rule: client is due for HPV screening at age 30.
+ *
+ * @decision: CXCA.D2 — Cervical cancer screening eligibility
+ * @output: CXCA.D#DE4 "Due for HPV screening"
+ * @bindingness: programmatic — Mongolia overlay
+ * @source: WHO Mongolia news release, 22 April 2025 — Cervical Cancer
+ *   Elimination Programme launch announced "two lifetime tests for women at
+ *   ages 30 and 40." This is a programmatic position; no successor MOH order
+ *   superseding A/641's 35/45 binding ages has been issued (verified against
+ *   moh.gov.mn 2024-2025 orders register; see project memory).
+ *
+ * This rule co-exists in the same CQL library as the legal rule above —
+ * different consumers (PlanDefinitions tagged differently via the
+ * cxca-bindingness extension) reference the appropriate define.
+ */
+define "Client is due for HPV screening at age 30":
+  "Client age" = 30

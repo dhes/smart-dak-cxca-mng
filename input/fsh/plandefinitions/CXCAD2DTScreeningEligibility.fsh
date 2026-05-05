@@ -25,6 +25,13 @@ Usage:       #definition
 * experimental = false
 * publisher = "Dan Heslinga (independent contributor)"
 
+// Regulatory bindingness — this PlanDefinition encodes the binding rules from
+// Mongolia MOH Order A/641 (2020) §2.2, which align with the WHO 2030 elimination
+// strategy's 35/45 target ages. Both interpretations are legally binding in their
+// respective domains, so this artifact carries `bindingness = legal`.
+* extension[+].url = "http://smart.who.int/cxca/StructureDefinition/cxca-bindingness"
+* extension[=].valueCoding = http://smart.who.int/cxca/CodeSystem/CXCA.Bindingness#legal "Legal — binding regulatory instrument"
+
 // Reference to the CQL library that evaluates the eligibility rules
 * library   = "http://smart.who.int/cxca/Library/CXCAD2DTScreeningEligibilityLogic"
 
