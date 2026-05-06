@@ -62,3 +62,27 @@ Description: "Data elements for the cervical cancer screening Digital Adaptation
 // Additional screening tests
 // -----------------------------------------------------------------------------
 * #DE13 "Cervical cytology test" "A laboratory test in which cervical cells are collected, stained (Papanicolaou or liquid-based), and examined microscopically. Used as a primary screening test in cytology-only facilities (per A/641 §2.2 cytology pathway) and as a follow-up to a positive HPV result (per A/641 Fig 2.4)."
+
+// -----------------------------------------------------------------------------
+// Anamnesis concepts — for use in CXCAD1 (first-encounter intake)
+// -----------------------------------------------------------------------------
+
+// HIV status (subset; full HIV status detail will use vendored smart-core profile in later chunk)
+* #DE17 "HIV-positive" "Client has a documented positive HIV test or active HIV diagnosis. Per WHO Mongolia, women living with HIV are approximately 6× more likely to develop cervical cancer; HIV+ status is a significant risk modifier for screening intensity and follow-up urgency."
+* #DE18 "HIV-negative" "Client has a documented negative HIV test."
+* #DE19 "HIV status unknown" "Client's HIV status has not been documented. May warrant offering HIV testing alongside cervical cancer screening."
+
+// Smoking status (per A/641 Op.Inst. 5.1 anamnesis: tobacco use is a risk factor)
+* #DE20 "Current smoker" "Client currently smokes tobacco (any amount, any form)."
+* #DE21 "Former smoker" "Client has smoked tobacco in the past but has quit."
+* #DE22 "Never smoker" "Client has never smoked tobacco."
+
+// Past screening test types (for capturing what kind of screening the client previously had)
+* #DE23 "Past screening: HPV high-risk DNA test" "Client's most recent prior cervical cancer screening was an HPV high-risk DNA test."
+* #DE24 "Past screening: cytology only" "Client's most recent prior cervical cancer screening was cytology (Pap smear) only."
+* #DE25 "Past screening: VIA (visual inspection with acetic acid)" "Client's most recent prior cervical cancer screening was VIA. Note: VIA is used in some low-resource settings; it is not part of the A/641 (2020) Mongolia binding pathway but may appear in client history from prior years or other countries."
+
+// Past screening result categories (broad — finer Bethesda-classification codes added in a later chunk)
+* #DE26 "Past screening: normal / negative" "Client's most recent prior screening result was normal / negative for cervical pre-cancer or cancer."
+* #DE27 "Past screening: abnormal / positive" "Client's most recent prior screening result was abnormal / positive (any abnormality — finer classification not captured at this level)."
+* #DE28 "Past screening: result unknown" "Client recalls having been screened but cannot recall the result, or the result is not in available records."
