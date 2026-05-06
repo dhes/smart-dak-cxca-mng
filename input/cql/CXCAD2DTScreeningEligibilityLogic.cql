@@ -31,11 +31,17 @@ using FHIR version '4.0.1'
 
 include FHIRHelpers version '4.0.1'
 
+// Shared elements layer — the harmonization substrate. Replaces the
+// `HasHadHysterectomy` parameter with a real FHIR-query-backed define.
+// (HasRecentHPVScreening and HasRecentCytologyScreening will be added to
+// CXCAElements in a future iteration once the per-period predicates are
+// authored; for now they remain local parameters.)
+include CXCAElements called Elements
+
 parameter Today Date default Today()
 
-// Placeholder parameters — to be replaced with FHIR queries via the shared
-// CXCAElements layer in a future iteration.
-parameter "HasHadHysterectomy" Boolean default false
+// Placeholder parameters still in use — to be migrated to CXCAElements
+// in subsequent refactoring passes.
 parameter "HasRecentHPVScreening" Boolean default false
 parameter "HasRecentCytologyScreening" Boolean default false
 
@@ -89,7 +95,7 @@ define "Client is at programmatic target age (30 or 40)":
  */
 define "Client is due for HPV screening (legal binding)":
   "Client is at binding target age (35 or 45)"
-    and not "HasHadHysterectomy"
+    and not Elements."Has Had Hysterectomy"
     and not "HasRecentHPVScreening"
 
 /*
@@ -100,7 +106,7 @@ define "Client is due for HPV screening (legal binding)":
 define "Client not due — already screened in current cycle (legal binding)":
   "Client is at binding target age (35 or 45)"
     and "HasRecentHPVScreening"
-    and not "HasHadHysterectomy"
+    and not Elements."Has Had Hysterectomy"
 
 /*
  * @output: CXCA.D#DE6 "Excluded — outside target age range"
@@ -109,7 +115,7 @@ define "Client not due — already screened in current cycle (legal binding)":
  */
 define "Client excluded — outside target age range (legal binding)":
   not "Client is at binding target age (35 or 45)"
-    and not "HasHadHysterectomy"
+    and not Elements."Has Had Hysterectomy"
 
 /*
  * @output: CXCA.D#DE7 "Excluded — prior hysterectomy"
@@ -118,7 +124,7 @@ define "Client excluded — outside target age range (legal binding)":
  * therefore exempt from cervical cancer screening per A/641 §2.2.
  */
 define "Client excluded — prior hysterectomy (legal binding)":
-  "HasHadHysterectomy"
+  Elements."Has Had Hysterectomy"
 
 // =============================================================================
 // Cytology-pathway eligibility — A/641 §2.2 (cytology-only facilities)
@@ -146,7 +152,7 @@ define "Client is at cytology pathway target age":
 define "Client is due for cytology screening (legal binding)":
   "Client is at cytology pathway target age"
     and not "FacilityHasHPVCapability"
-    and not "HasHadHysterectomy"
+    and not Elements."Has Had Hysterectomy"
     and not "HasRecentCytologyScreening"
 
 // =============================================================================
@@ -161,7 +167,7 @@ define "Client is due for cytology screening (legal binding)":
  */
 define "Client is due for HPV screening (programmatic)":
   "Client is at programmatic target age (30 or 40)"
-    and not "HasHadHysterectomy"
+    and not Elements."Has Had Hysterectomy"
     and not "HasRecentHPVScreening"
 
 // =============================================================================

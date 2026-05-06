@@ -122,3 +122,8 @@ Description: "Data elements for the cervical cancer screening Digital Adaptation
 * #DE42 "Recall: cytology slide unread timeout (2 weeks)" "Recall trigger: a cytology slide was received at the lab more than 2 weeks ago and no cytologist conclusion has been entered. Per A/641 §2.3."
 * #DE43 "Recall: second reminder (4 weeks after first)" "Recall trigger: a first reminder was sent more than 4 weeks ago and the underlying gap remains unresolved. Per A/641 §2.3 a second reminder should issue."
 * #DE44 "Recall: missed scheduled examination" "Recall trigger: the patient had a scheduled examination that they did not attend. Per A/641 §2.3, immediate flag — does not wait for a timeout."
+
+// -----------------------------------------------------------------------------
+// Surgical procedures (for use as Procedure.code when querying patient history)
+// -----------------------------------------------------------------------------
+* #DE45 "Hysterectomy" "Surgical removal of the uterus. The cervical-cancer-screening exclusion in A/641 §2.2 applies only when the hysterectomy was for a non-cervical-cancer indication and the post-operative vaginal-smear cytology was negative."
