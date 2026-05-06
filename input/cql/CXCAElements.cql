@@ -70,7 +70,7 @@ define "Hysterectomy Procedures":
 /*
  * The patient has a documented completed hysterectomy.
  *
- * NOTE: A/641 §2.2 only excludes hysterectomy for non-cervical-cancer indication
+ * NOTE: A/641 section 2.2 only excludes hysterectomy for non-cervical-cancer indication
  * with a documented negative post-op vaginal-smear cytology. This define
  * captures only the hysterectomy fact; the indication and post-op cytology
  * checks live in higher-layer logic that combines this define with others.

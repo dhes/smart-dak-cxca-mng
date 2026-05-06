@@ -2,7 +2,7 @@
  * Library: CXCAD2DTScreeningEligibilityLogic
  *
  * Decision: Cervical cancer screening eligibility (HPV pathway)
- * L2 Source: A/641 (2020) §2.2 — Mongolia binding screening eligibility rules
+ * L2 Source: A/641 (2020) section 2.2 — Mongolia binding screening eligibility rules
  * Trigger: CXCA.D2 — encounter with a woman in primary-care setting
  *
  * Phase 5 expansion: implements the full four-outcome eligibility tree
@@ -45,7 +45,7 @@ parameter Today Date default Today()
 parameter "HasRecentHPVScreening" Boolean default false
 parameter "HasRecentCytologyScreening" Boolean default false
 
-// Facility lab-capacity selector — A/641 §2.2 specifies different age cycles
+// Facility lab-capacity selector — A/641 section 2.2 specifies different age cycles
 // based on whether the facility can run HPV high-risk DNA tests in-house.
 //   true  → HPV pathway (ages 35 and 45 only)
 //   false → cytology pathway (the 11-age 3-year cycle: 30, 33, 36, 39, 42,
@@ -68,7 +68,7 @@ define "Client age":
   AgeInYearsAt(Today)
 
 /*
- * The client is at one of the binding target ages per A/641 §2.2
+ * The client is at one of the binding target ages per A/641 section 2.2
  * (HPV-test-capable facilities: ages 35 and 45 only).
  */
 define "Client is at binding target age (35 or 45)":
@@ -83,7 +83,7 @@ define "Client is at programmatic target age (30 or 40)":
   "Client age" = 30 or "Client age" = 40
 
 // =============================================================================
-// Legal-binding eligibility tree — A/641 §2.2 (HPV at ages 35 and 45)
+// Legal-binding eligibility tree — A/641 section 2.2 (HPV at ages 35 and 45)
 // Bindingness: legal
 // =============================================================================
 
@@ -121,13 +121,13 @@ define "Client excluded — outside target age range (legal binding)":
  * @output: CXCA.D#DE7 "Excluded — prior hysterectomy"
  * @bindingness: legal
  * Client has had a hysterectomy for non-cervical-cancer indication and is
- * therefore exempt from cervical cancer screening per A/641 §2.2.
+ * therefore exempt from cervical cancer screening per A/641 section 2.2.
  */
 define "Client excluded — prior hysterectomy (legal binding)":
   Elements."Has Had Hysterectomy"
 
 // =============================================================================
-// Cytology-pathway eligibility — A/641 §2.2 (cytology-only facilities)
+// Cytology-pathway eligibility — A/641 section 2.2 (cytology-only facilities)
 // Bindingness: legal — binding to cytology-only facilities under A/641
 //
 // Eleven binding ages on a 3-year cycle: 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60.
@@ -136,7 +136,7 @@ define "Client excluded — prior hysterectomy (legal binding)":
 
 /*
  * The client is at one of the 11 binding cytology-pathway target ages
- * per A/641 §2.2 (cytology-only facilities, 3-year cycle from 30 to 60).
+ * per A/641 section 2.2 (cytology-only facilities, 3-year cycle from 30 to 60).
  */
 define "Client is at cytology pathway target age":
   "Client age" in { 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60 }

@@ -8,7 +8,7 @@
 //
 // In the Mongolian operational context, the CommunicationRequest typically
 // becomes a phone call by the family-clinic staff, an SMS, or — in remote
-// rural areas — a visit by the community health worker (per A/641 §3.1
+// rural areas — a visit by the community health worker (per A/641 section 3.1
 // outreach personnel). The reasonCode on the instantiated CommunicationRequest
 // (one of CXCA.D#DE38–DE44) makes the trigger explicit so the recall worker
 // knows why they're calling.
@@ -17,7 +17,7 @@
 Instance:    CXCAD18ReminderCommunicationRequest
 InstanceOf:  ActivityDefinition
 Title:       "CXCAD18 — Recall Reminder CommunicationRequest"
-Description: "Activity template that becomes a CommunicationRequest when the recall scheduling rule (CXCAD18S) detects a timeout trigger. Intent is #proposal — staff review and action the reminder via phone, SMS, or in-person visit. The reasonCode set by the invoking PlanDefinition action identifies which timeout trigger (per A/641 §2.3) caused the recall."
+Description: "Activity template that becomes a CommunicationRequest when the recall scheduling rule (CXCAD18S) detects a timeout trigger. Intent is #proposal — staff review and action the reminder via phone, SMS, or in-person visit. The reasonCode set by the invoking PlanDefinition action identifies which timeout trigger (per A/641 section 2.3) caused the recall."
 Usage:       #definition
 
 * url       = "http://smart.who.int/cxca/ActivityDefinition/CXCAD18ReminderCommunicationRequest"

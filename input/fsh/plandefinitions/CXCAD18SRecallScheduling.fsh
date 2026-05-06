@@ -1,23 +1,23 @@
 // =============================================================================
 // CXCA.D18.S.RecallScheduling — Recall Scheduling PlanDefinition
 // =============================================================================
-// CDS rule manifest for the recall and re-call decision per A/641 §2.3.
+// CDS rule manifest for the recall and re-call decision per A/641 section 2.3.
 // Designed for periodic batch sweeps across the screening registry — every
 // patient is evaluated against all seven timeout triggers; if any fire, a
 // CommunicationRequest reminder is created.
 //
-// Seven actions correspond to the seven timeout triggers in A/641 §2.3.
+// Seven actions correspond to the seven timeout triggers in A/641 section 2.3.
 // Each action invokes the same ActivityDefinition (the reminder
 // CommunicationRequest) but with a different reasonCode that identifies
 // which trigger caused the recall.
 //
-// Tagged bindingness = legal — A/641 §2.3 is a binding regulatory provision.
+// Tagged bindingness = legal — A/641 section 2.3 is a binding regulatory provision.
 // =============================================================================
 
 Instance:    CXCAD18SRecallScheduling
 InstanceOf:  http://hl7.org/fhir/uv/cpg/StructureDefinition/cpg-recommendationdefinition
 Title:       "CXCA.D18.S — Recall Scheduling"
-Description: "Decision support for recall and re-call per Mongolia MOH Order A/641 (2020) §2.3. Evaluates seven timeout triggers (HPV sample timeout, positive-result follow-up timeout, biopsy timeout, treatment-after-biopsy timeout, cytology unread timeout, second-reminder, missed scheduled exam) and instantiates a CommunicationRequest reminder for each fired trigger. The 187 LTFU women from the April 2026 Khan-Uul pilot represent the empirical case for why this layer matters — DE39 (positive-result follow-up timeout, 4 weeks) is the trigger that should fire for each of them."
+Description: "Decision support for recall and re-call per Mongolia MOH Order A/641 (2020) section 2.3. Evaluates seven timeout triggers (HPV sample timeout, positive-result follow-up timeout, biopsy timeout, treatment-after-biopsy timeout, cytology unread timeout, second-reminder, missed scheduled exam) and instantiates a CommunicationRequest reminder for each fired trigger. The 187 LTFU women from the April 2026 Khan-Uul pilot represent the empirical case for why this layer matters — DE39 (positive-result follow-up timeout, 4 weeks) is the trigger that should fire for each of them."
 Usage:       #definition
 
 * url       = "http://smart.who.int/cxca/PlanDefinition/CXCAD18SRecallScheduling"

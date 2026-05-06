@@ -7,7 +7,7 @@
 //   - The CXCAD2DTScreeningEligibilityLogic CQL library (which evaluates the
 //     decision and emits the eligibilityOutcome)
 //
-// L2 source: A/641 (2020) §2.2 — Mongolia binding HPV screening eligibility.
+// L2 source: A/641 (2020) section 2.2 — Mongolia binding HPV screening eligibility.
 //
 // Phase 2 vertical slice — minimal field set. Hysterectomy indication,
 // post-hysterectomy cytology, pregnancy status, and facility lab capacity
@@ -17,7 +17,7 @@
 Logical:      CXCAD2
 Id:           CXCAD2
 Title:        "CXCA.D2 — Cervical Cancer Screening Eligibility"
-Description:  "Logical model for the inputs and output of the cervical cancer screening eligibility decision (D2). Paired with the QCXCAD2 Questionnaire for data capture and consumed by the CXCAD2DTScreeningEligibilityLogic CQL library. Reflects the binding eligibility rules in Mongolia MOH Order A/641 (2020) §2.2. Note: the LogicalModel ID is `CXCAD2` (no period) because periods in LogicalModel IDs collide with FSH path generation; the human-readable title preserves the `CXCA.D2` notation."
+Description:  "Logical model for the inputs and output of the cervical cancer screening eligibility decision (D2). Paired with the QCXCAD2 Questionnaire for data capture and consumed by the CXCAD2DTScreeningEligibilityLogic CQL library. Reflects the binding eligibility rules in Mongolia MOH Order A/641 (2020) section 2.2. Note: the LogicalModel ID is `CXCAD2` (no period) because periods in LogicalModel IDs collide with FSH path generation; the human-readable title preserves the `CXCA.D2` notation."
 
 * ^url = "http://smart.who.int/cxca/StructureDefinition/CXCAD2"
 * ^version = "0.0.1"

@@ -27,10 +27,10 @@ Description: "Data elements for the cervical cancer screening Digital Adaptation
 * ^content = #complete
 
 // -----------------------------------------------------------------------------
-// Target ages — A/641 §2.2, binding HPV screening ages
+// Target ages — A/641 section 2.2, binding HPV screening ages
 // -----------------------------------------------------------------------------
-* #DE1 "Target age 35 for HPV screening" "First binding age at which a woman becomes a target for primary HPV high-risk DNA screening per Mongolia MOH Order A/641 (2020) §2.2 (HPV-test-capable facilities)."
-* #DE2 "Target age 45 for HPV screening" "Second binding age at which a woman becomes a target for primary HPV high-risk DNA screening per Mongolia MOH Order A/641 (2020) §2.2 (HPV-test-capable facilities)."
+* #DE1 "Target age 35 for HPV screening" "First binding age at which a woman becomes a target for primary HPV high-risk DNA screening per Mongolia MOH Order A/641 (2020) section 2.2 (HPV-test-capable facilities)."
+* #DE2 "Target age 45 for HPV screening" "Second binding age at which a woman becomes a target for primary HPV high-risk DNA screening per Mongolia MOH Order A/641 (2020) section 2.2 (HPV-test-capable facilities)."
 
 // -----------------------------------------------------------------------------
 // Screening tests
@@ -43,8 +43,8 @@ Description: "Data elements for the cervical cancer screening Digital Adaptation
 // -----------------------------------------------------------------------------
 * #DE4 "Due for HPV screening" "Eligibility outcome: the client meets the criteria to be offered HPV high-risk DNA screening at this encounter."
 * #DE5 "Not due — already screened in current cycle" "Eligibility outcome: the client is in the target age range, but has had a recent valid HPV screening result and is not due for re-screening at this encounter."
-* #DE6 "Excluded — outside target age range" "Eligibility outcome: the client is not in the binding target age range (per A/641 §2.2). For HPV-test-capable facilities, the binding ages are 35 and 45 only."
-* #DE7 "Excluded — prior hysterectomy" "Eligibility outcome: the client has had a hysterectomy for non-cervical-cancer indication with a documented negative post-operative vaginal-smear cytology, and is therefore exempt from cervical cancer screening per A/641 §2.2."
+* #DE6 "Excluded — outside target age range" "Eligibility outcome: the client is not in the binding target age range (per A/641 section 2.2). For HPV-test-capable facilities, the binding ages are 35 and 45 only."
+* #DE7 "Excluded — prior hysterectomy" "Eligibility outcome: the client has had a hysterectomy for non-cervical-cancer indication with a documented negative post-operative vaginal-smear cytology, and is therefore exempt from cervical cancer screening per A/641 section 2.2."
 
 // -----------------------------------------------------------------------------
 // Test results — for use in Observation.valueCodeableConcept
@@ -61,7 +61,7 @@ Description: "Data elements for the cervical cancer screening Digital Adaptation
 // -----------------------------------------------------------------------------
 // Additional screening tests
 // -----------------------------------------------------------------------------
-* #DE13 "Cervical cytology test" "A laboratory test in which cervical cells are collected, stained (Papanicolaou or liquid-based), and examined microscopically. Used as a primary screening test in cytology-only facilities (per A/641 §2.2 cytology pathway) and as a follow-up to a positive HPV result (per A/641 Fig 2.4)."
+* #DE13 "Cervical cytology test" "A laboratory test in which cervical cells are collected, stained (Papanicolaou or liquid-based), and examined microscopically. Used as a primary screening test in cytology-only facilities (per A/641 section 2.2 cytology pathway) and as a follow-up to a positive HPV result (per A/641 Fig 2.4)."
 
 // -----------------------------------------------------------------------------
 // Anamnesis concepts — for use in CXCAD1 (first-encounter intake)
@@ -111,19 +111,19 @@ Description: "Data elements for the cervical cancer screening Digital Adaptation
 * #DE37 "Colposcopy" "A diagnostic procedure in which the cervix is examined under magnification (typically with acetic acid application) to identify lesions for biopsy. Per A/641 Op.Inst. 5.6."
 
 // -----------------------------------------------------------------------------
-// Recall reasons — A/641 §2.3 timeout-based reminder triggers
+// Recall reasons — A/641 section 2.3 timeout-based reminder triggers
 // Used as the reasonCode on the CommunicationRequest issued by the
 // CXCAD18SRecallScheduling PlanDefinition.
 // -----------------------------------------------------------------------------
-* #DE38 "Recall: HPV sample result timeout (3 weeks)" "Recall trigger: an HPV sample was dispatched to the lab more than 3 weeks ago and no result has been entered into the registry. Per A/641 §2.3, this triggers a reminder to follow up with the lab and (if the result is in but not yet entered) the entering staff."
-* #DE39 "Recall: positive result follow-up timeout (4 weeks)" "Recall trigger: a positive screening result was entered into the registry more than 4 weeks ago and no follow-up examination has been recorded. Per A/641 §2.3, this triggers a reminder to the patient and the obstetrician-gynaecologist."
-* #DE40 "Recall: biopsy result timeout (4 weeks)" "Recall trigger: a biopsy sample was received at the lab more than 4 weeks ago and no histopathology result has been entered. Per A/641 §2.3."
-* #DE41 "Recall: treatment timeout after positive biopsy (4 weeks)" "Recall trigger: a positive biopsy result has been entered for more than 4 weeks and no treatment record exists. Per A/641 §2.3."
-* #DE42 "Recall: cytology slide unread timeout (2 weeks)" "Recall trigger: a cytology slide was received at the lab more than 2 weeks ago and no cytologist conclusion has been entered. Per A/641 §2.3."
-* #DE43 "Recall: second reminder (4 weeks after first)" "Recall trigger: a first reminder was sent more than 4 weeks ago and the underlying gap remains unresolved. Per A/641 §2.3 a second reminder should issue."
-* #DE44 "Recall: missed scheduled examination" "Recall trigger: the patient had a scheduled examination that they did not attend. Per A/641 §2.3, immediate flag — does not wait for a timeout."
+* #DE38 "Recall: HPV sample result timeout (3 weeks)" "Recall trigger: an HPV sample was dispatched to the lab more than 3 weeks ago and no result has been entered into the registry. Per A/641 section 2.3, this triggers a reminder to follow up with the lab and (if the result is in but not yet entered) the entering staff."
+* #DE39 "Recall: positive result follow-up timeout (4 weeks)" "Recall trigger: a positive screening result was entered into the registry more than 4 weeks ago and no follow-up examination has been recorded. Per A/641 section 2.3, this triggers a reminder to the patient and the obstetrician-gynaecologist."
+* #DE40 "Recall: biopsy result timeout (4 weeks)" "Recall trigger: a biopsy sample was received at the lab more than 4 weeks ago and no histopathology result has been entered. Per A/641 section 2.3."
+* #DE41 "Recall: treatment timeout after positive biopsy (4 weeks)" "Recall trigger: a positive biopsy result has been entered for more than 4 weeks and no treatment record exists. Per A/641 section 2.3."
+* #DE42 "Recall: cytology slide unread timeout (2 weeks)" "Recall trigger: a cytology slide was received at the lab more than 2 weeks ago and no cytologist conclusion has been entered. Per A/641 section 2.3."
+* #DE43 "Recall: second reminder (4 weeks after first)" "Recall trigger: a first reminder was sent more than 4 weeks ago and the underlying gap remains unresolved. Per A/641 section 2.3 a second reminder should issue."
+* #DE44 "Recall: missed scheduled examination" "Recall trigger: the patient had a scheduled examination that they did not attend. Per A/641 section 2.3, immediate flag — does not wait for a timeout."
 
 // -----------------------------------------------------------------------------
 // Surgical procedures (for use as Procedure.code when querying patient history)
 // -----------------------------------------------------------------------------
-* #DE45 "Hysterectomy" "Surgical removal of the uterus. The cervical-cancer-screening exclusion in A/641 §2.2 applies only when the hysterectomy was for a non-cervical-cancer indication and the post-operative vaginal-smear cytology was negative."
+* #DE45 "Hysterectomy" "Surgical removal of the uterus. The cervical-cancer-screening exclusion in A/641 section 2.2 applies only when the hysterectomy was for a non-cervical-cancer indication and the post-operative vaginal-smear cytology was negative."

@@ -8,6 +8,15 @@ When an entry is filed upstream, move it to **Filed** and add the PR/issue link.
 
 ## Open
 
+### 5. IG Publisher misinterprets `§` (section sign) in CQL/FSH content as a FHIR conformance term marker
+
+- **Upstream repo:** [`HL7/fhir-ig-publisher`](https://github.com/HL7/fhir-ig-publisher) (the publisher itself, not a WHO repo)
+- **Symptom:** When `§` appears in an embedded CQL Library's content (rendered as a `<pre>` block on the Library HTML page) or in a FHIR resource description (PlanDefinition, ActivityDefinition, etc.), the publisher's renderer incorrectly wraps the following text in `<span class="fhir-conformance">…</span>` and produces visible content corruption — typically the text after `§` is replaced by content from elsewhere in the same file (often the top comment block), producing a confusing duplicated/scrambled display. Side effect in `qa-eslintcompact.txt`: `Info - No conformance term found in the text: 2.2 — …` messages with no actionable information.
+- **Discovered:** 2026-05-05, while reviewing the rendered Library page for CXCAD2DTScreeningEligibilityLogic. Affected ~13 CQL files and ~16 FSH files in this DAK that referenced A/641 sections via the `§` notation.
+- **cxca local fix:** all `§` characters replaced with the literal word `section ` across `input/cql/` and `input/fsh/` 2026-05-05. Cosmetically degraded but renders correctly.
+- **Likely root cause:** the publisher has logic to detect FHIR conformance terms (SHALL, SHOULD, MAY etc.) and wrap them in styled spans. The `§` character is being treated as a marker signaling that the following text is a conformance term reference, but the surrounding logic doesn't validate that interpretation and produces broken HTML when the assumption is wrong.
+- **Suggested upstream fix:** the `§` heuristic should require additional context (e.g., recognition of "§ N.M" as a section reference *not* a conformance term, or recognition of common preceding words like "section" / "per" / "see"). Or simpler: the renderer should only fire on `§` when followed by a known conformance term, not bare numeric references.
+
 ### 4. `path-binary: input/cql` not declared in smart-dak-empty's `sushi-config.yaml`
 
 - **Upstream repo:** [`WorldHealthOrganization/smart-dak-empty`](https://github.com/WorldHealthOrganization/smart-dak-empty)

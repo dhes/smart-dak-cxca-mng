@@ -14,7 +14,7 @@
 Instance:    CXCAD2CytologyScreeningServiceRequest
 InstanceOf:  ActivityDefinition
 Title:       "CXCAD2 — Cytology Screening Service Request"
-Description: "Activity template that becomes a ServiceRequest for cervical cytology testing when the CXCAD2DTScreeningEligibility-Cytology rule recommends screening (cytology-pathway clients per A/641 §2.2). Intent is #proposal — the clinician reviews and approves before the request becomes active."
+Description: "Activity template that becomes a ServiceRequest for cervical cytology testing when the CXCAD2DTScreeningEligibility-Cytology rule recommends screening (cytology-pathway clients per A/641 section 2.2). Intent is #proposal — the clinician reviews and approves before the request becomes active."
 Usage:       #definition
 
 * url       = "http://smart.who.int/cxca/ActivityDefinition/CXCAD2CytologyScreeningServiceRequest"

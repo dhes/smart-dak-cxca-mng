@@ -2,7 +2,7 @@
 // Example: HPV+ Observation for the LTFU cascade fixture
 // =============================================================================
 // Provides the precondition for the LTFU ServiceRequest below: this patient
-// got a positive HPV result, which under A/641 §2.2 should trigger follow-up
+// got a positive HPV result, which under A/641 section 2.2 should trigger follow-up
 // cytology. The follow-up didn't happen — that's documented in the paired
 // CXCAServiceNotRequested example.
 // =============================================================================

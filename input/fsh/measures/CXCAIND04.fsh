@@ -7,7 +7,7 @@
 Instance:    CXCAIND04
 InstanceOf:  Measure
 Title:       "CXCA.IND.04 — Cervical Cancer Screening Coverage at Age 45"
-Description: "Proportion of women aged 45 in the measurement period who received HPV high-risk DNA screening during the period. Companion to CXCAIND01 (age 35); per A/641 §2.2 the binding HPV ages are 35 and 45 and coverage should be reported separately at each."
+Description: "Proportion of women aged 45 in the measurement period who received HPV high-risk DNA screening during the period. Companion to CXCAIND01 (age 35); per A/641 section 2.2 the binding HPV ages are 35 and 45 and coverage should be reported separately at each."
 Usage:       #definition
 
 * url       = "http://smart.who.int/cxca/Measure/CXCAIND04"

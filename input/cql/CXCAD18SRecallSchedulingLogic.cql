@@ -2,10 +2,10 @@
  * Library: CXCAD18SRecallSchedulingLogic
  *
  * Decision: Should a recall reminder be issued for this patient?
- * L2 Source: A/641 (2020) §2.3 — recall and re-call system
+ * L2 Source: A/641 (2020) section 2.3 — recall and re-call system
  * Trigger: Periodic batch sweep across the screening registry, OR encounter-time check
  *
- * THE RECALL TRIGGER MATRIX (per A/641 §2.3, p. 28):
+ * THE RECALL TRIGGER MATRIX (per A/641 section 2.3, p. 28):
  *
  *   Trigger                                   | Clock starts at        | Threshold
  *   ──────────────────────────────────────────────────────────────────────────────
@@ -55,7 +55,7 @@ parameter "MissedScheduledExamination" Boolean default false
 context Patient
 
 // =============================================================================
-// Recall trigger rules — one per A/641 §2.3 timeout
+// Recall trigger rules — one per A/641 section 2.3 timeout
 // =============================================================================
 
 /*

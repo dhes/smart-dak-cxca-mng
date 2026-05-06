@@ -12,7 +12,7 @@
  * Numerator: Women aged 35 in the measurement period who received an HPV
  *   high-risk DNA screening result during the period.
  * Denominator: Women aged 35 in the measurement period (target population
- *   for HPV screening per A/641 §2.2).
+ *   for HPV screening per A/641 section 2.2).
  *
  * Phase 2 vertical slice — placeholder Initial Population / Denominator /
  * Numerator definitions, mirroring IMMZ's IND12 pattern. Subsequent iterations

@@ -36,7 +36,7 @@ Description: "CodeSystem for tagging cervical cancer screening DAK artifacts by 
 * ^caseSensitive = true
 * ^content = #complete
 
-* #legal "Legal — binding regulatory instrument" "The artifact encodes a rule from a legally-binding regulatory instrument (e.g., a signed ministerial order, a national law, an enacted regulation). Providers are required to follow this rule. Example: Mongolia MOH Order A/641 (2020) §2.2."
+* #legal "Legal — binding regulatory instrument" "The artifact encodes a rule from a legally-binding regulatory instrument (e.g., a signed ministerial order, a national law, an enacted regulation). Providers are required to follow this rule. Example: Mongolia MOH Order A/641 (2020) section 2.2."
 
 * #programmatic "Programmatic — announced position not yet binding" "The artifact encodes a position announced via a national programme, ministerial communication, or strategy document, where the announcement has not (yet) been operationalised as a legally-binding instrument. Providers may be encouraged or guided toward this position but are not legally required to follow it. Example: Mongolia's April 2025 Cervical Cancer Elimination Programme launch announcing HPV screening at ages 30 and 40."
 

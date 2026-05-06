@@ -11,7 +11,7 @@
 //   * ActivityDefinition CXCAD2HPVScreeningServiceRequest is instantiated
 //
 // This is the canonical "first-encounter, never-screened" scenario from the
-// outreach-worker analysis we did earlier (extracted from A/641 §5.1 anamnesis
+// outreach-worker analysis we did earlier (extracted from A/641 section 5.1 anamnesis
 // + ЭИМ-5а enrollment + ЭИМ-5б HPV sample referral).
 //
 // Subject Patient is referenced by ID only — the Patient resource itself is

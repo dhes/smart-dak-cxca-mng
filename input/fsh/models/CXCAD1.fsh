@@ -16,7 +16,7 @@
 //
 // METHODOLOGY NOTE:
 // This LogicalModel is intentionally comprehensive — it captures everything
-// A/641 §5.1 requires. Many of the captured concepts have canonical homes
+// A/641 section 5.1 requires. Many of the captured concepts have canonical homes
 // in WHO smart-core (HIV status, contraception, sexual history, etc.), but
 // the smart-core package is not registered in the FHIR package registry
 // as of 2026-05, so we cannot import its profiles via SUSHI dependencies.
@@ -46,8 +46,8 @@ Description:  "Logical model for the first-encounter intake / anamnesis used at 
 // ---- Reproductive history ----
 * numberOfPregnancies 0..1 integer "Number of pregnancies (gravidity), regardless of outcome"
 * numberOfBirths 0..1 integer "Number of live births (parity)"
-* lastMenstrualPeriod 0..1 date "First day of the client's most recent menstrual period. Drives sample-collection timing — per A/641 Op.Inst. 5.1 §10, samples should not be collected during heavy menstrual flow."
-* currentlyPregnant 0..1 boolean "Whether the client is currently pregnant. Pregnant women in the first 3 months may be opportunistically included in screening per A/641 §2.2."
+* lastMenstrualPeriod 0..1 date "First day of the client's most recent menstrual period. Drives sample-collection timing — per A/641 Op.Inst. 5.1 section 10, samples should not be collected during heavy menstrual flow."
+* currentlyPregnant 0..1 boolean "Whether the client is currently pregnant. Pregnant women in the first 3 months may be opportunistically included in screening per A/641 section 2.2."
 * gestationalAgeWeeks 0..1 integer "If currently pregnant, gestational age in weeks. Required if currentlyPregnant = true."
 
 // ---- Contraception ----
@@ -70,12 +70,12 @@ Description:  "Logical model for the first-encounter intake / anamnesis used at 
 * lastScreeningResult 0..1 Coding "Result category of the most recent prior screening. Bound to CXCA.D codes DE26 (normal), DE27 (abnormal), DE28 (unknown)."
 
 // ---- Hysterectomy history ----
-* hadHysterectomy 0..1 boolean "Whether the client has had a hysterectomy. Drives the eligibility-exclusion check per A/641 §2.2."
-* hysterectomyForCervicalCancer 0..1 boolean "If hadHysterectomy = true, whether the indication was cervical cancer (in which case the screening exclusion does NOT apply per A/641 §2.2). Required when hadHysterectomy = true."
+* hadHysterectomy 0..1 boolean "Whether the client has had a hysterectomy. Drives the eligibility-exclusion check per A/641 section 2.2."
+* hysterectomyForCervicalCancer 0..1 boolean "If hadHysterectomy = true, whether the indication was cervical cancer (in which case the screening exclusion does NOT apply per A/641 section 2.2). Required when hadHysterectomy = true."
 
 // ---- Risk-modifying habits ----
 * smokingStatus 0..1 Coding "Client's smoking status. Bound to CXCA.D codes DE20 (current), DE21 (former), DE22 (never)."
-* alcoholUse 0..1 boolean "Whether the client consumes alcohol regularly. Documented as a risk factor per A/641 §1.3.2."
+* alcoholUse 0..1 boolean "Whether the client consumes alcohol regularly. Documented as a risk factor per A/641 section 1.3.2."
 
 // ---- Presenting symptoms (cervical-cancer-relevant) ----
 * hasPostcoitalBleeding 0..1 boolean "Whether the client reports bleeding after intercourse. May indicate cervical pathology — flag for clinician attention."

@@ -4,7 +4,7 @@
 // Mongolia overlay PlanDefinition. Encodes the *programmatic* eligibility
 // position announced at the April 2025 Cervical Cancer Elimination Programme
 // launch — HPV screening at ages 30 and 40 (rather than the legally-binding
-// 35/45 from A/641 §2.2).
+// 35/45 from A/641 section 2.2).
 //
 // Pairs with CXCAD2DTScreeningEligibility (the legal-binding artifact).
 // Both reference the same CXCAD2DTScreeningEligibilityLogic Library, but
@@ -35,7 +35,7 @@
 Instance:    CXCAMNGD2DTScreeningEligibility-Programmatic
 InstanceOf:  http://hl7.org/fhir/uv/cpg/StructureDefinition/cpg-recommendationdefinition
 Title:       "CXCAMNG.D2.DT — Mongolia Programmatic Screening Eligibility (30/40 ages)"
-Description: "Mongolia overlay PlanDefinition encoding the April 2025 Cervical Cancer Elimination Programme launch's announced HPV screening ages (30 and 40). NOT a legally-binding rule — A/641 (2020) §2.2 remains binding with 35/45 ages. Tagged bindingness = programmatic. Pairs with the legal-binding CXCAD2DTScreeningEligibility PlanDefinition; both reference the same CQL Library, each firing on a different rule."
+Description: "Mongolia overlay PlanDefinition encoding the April 2025 Cervical Cancer Elimination Programme launch's announced HPV screening ages (30 and 40). NOT a legally-binding rule — A/641 (2020) section 2.2 remains binding with 35/45 ages. Tagged bindingness = programmatic. Pairs with the legal-binding CXCAD2DTScreeningEligibility PlanDefinition; both reference the same CQL Library, each firing on a different rule."
 Usage:       #definition
 
 * url       = "http://smart.who.int/cxca/PlanDefinition/CXCAMNGD2DTScreeningEligibility-Programmatic"
@@ -46,7 +46,7 @@ Usage:       #definition
 * publisher = "Dan Heslinga (independent contributor)"
 
 // Regulatory bindingness — programmatic Mongolia announcement, NOT legally binding.
-// A/641 (2020) §2.2 with ages 35/45 remains the legally-binding rule.
+// A/641 (2020) section 2.2 with ages 35/45 remains the legally-binding rule.
 * extension[+].url = "http://smart.who.int/cxca/StructureDefinition/cxca-bindingness"
 * extension[=].valueCoding = http://smart.who.int/cxca/CodeSystem/CXCA.Bindingness#programmatic "Programmatic — announced position not yet binding"
 
@@ -55,7 +55,7 @@ Usage:       #definition
 
 // Action: if "Client is due for HPV screening (programmatic)" is true, propose an HPV ServiceRequest
 * action[0].title        = "Recommend HPV high-risk DNA screening at programmatic target age (Mongolia overlay)"
-* action[0].description  = "Per the April 2025 Cervical Cancer Elimination Programme launch, Mongolia announced HPV screening at ages 30 and 40. If the client is at one of those programmatic target ages, has not had a hysterectomy, and has not been screened in the current cycle, create a proposed ServiceRequest for HPV high-risk DNA testing. Note: this is a programmatic position only; A/641 §2.2 (35/45) remains legally binding."
+* action[0].description  = "Per the April 2025 Cervical Cancer Elimination Programme launch, Mongolia announced HPV screening at ages 30 and 40. If the client is at one of those programmatic target ages, has not had a hysterectomy, and has not been screened in the current cycle, create a proposed ServiceRequest for HPV high-risk DNA testing. Note: this is a programmatic position only; A/641 section 2.2 (35/45) remains legally binding."
 * action[0].condition[0].kind                 = #applicability
 * action[0].condition[0].expression.language  = #text/cql-identifier
 * action[0].condition[0].expression.expression = "Client is due for HPV screening (programmatic)"

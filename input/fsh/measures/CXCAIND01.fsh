@@ -14,7 +14,7 @@
 Instance:    CXCAIND01
 InstanceOf:  Measure
 Title:       "CXCA.IND.01 — Cervical Cancer Screening Coverage at Age 35"
-Description: "Proportion of women aged 35 in the measurement period who received HPV high-risk DNA screening during the period. Numerator and denominator computation follows A/641 (2020) Annex 2 coverage metrics framework, adapted to per-age stratification matching the binding target ages of A/641 §2.2."
+Description: "Proportion of women aged 35 in the measurement period who received HPV high-risk DNA screening during the period. Numerator and denominator computation follows A/641 (2020) Annex 2 coverage metrics framework, adapted to per-age stratification matching the binding target ages of A/641 section 2.2."
 Usage:       #definition
 
 * url       = "http://smart.who.int/cxca/Measure/CXCAIND01"
