@@ -45,3 +45,20 @@ Description: "Data elements for the cervical cancer screening Digital Adaptation
 * #DE5 "Not due — already screened in current cycle" "Eligibility outcome: the client is in the target age range, but has had a recent valid HPV screening result and is not due for re-screening at this encounter."
 * #DE6 "Excluded — outside target age range" "Eligibility outcome: the client is not in the binding target age range (per A/641 §2.2). For HPV-test-capable facilities, the binding ages are 35 and 45 only."
 * #DE7 "Excluded — prior hysterectomy" "Eligibility outcome: the client has had a hysterectomy for non-cervical-cancer indication with a documented negative post-operative vaginal-smear cytology, and is therefore exempt from cervical cancer screening per A/641 §2.2."
+
+// -----------------------------------------------------------------------------
+// Test results — for use in Observation.valueCodeableConcept
+// -----------------------------------------------------------------------------
+* #DE8 "HPV high-risk positive" "Result: at least one high-risk human papillomavirus genotype detected in the cervical sample."
+* #DE9 "HPV high-risk negative" "Result: no high-risk human papillomavirus genotypes detected in the cervical sample."
+
+// -----------------------------------------------------------------------------
+// LTFU and cascade-completion outcome codes — for use in ServiceRequest.reasonCode
+// when documenting non-occurrence of expected services.
+// -----------------------------------------------------------------------------
+* #DE10 "Lost to follow-up" "Service was expected (e.g., follow-up cytology after a positive HPV result) but did not occur because the patient could not be contacted or did not return for care. Generic LTFU reason; specific causes (phone disconnected, distance, declined) may be added as sub-codes in future iterations."
+
+// -----------------------------------------------------------------------------
+// Additional screening tests
+// -----------------------------------------------------------------------------
+* #DE13 "Cervical cytology test" "A laboratory test in which cervical cells are collected, stained (Papanicolaou or liquid-based), and examined microscopically. Used as a primary screening test in cytology-only facilities (per A/641 §2.2 cytology pathway) and as a follow-up to a positive HPV result (per A/641 Fig 2.4)."
