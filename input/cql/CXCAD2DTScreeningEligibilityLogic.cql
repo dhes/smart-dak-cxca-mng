@@ -37,6 +37,17 @@ parameter Today Date default Today()
 // CXCAElements layer in a future iteration.
 parameter "HasHadHysterectomy" Boolean default false
 parameter "HasRecentHPVScreening" Boolean default false
+parameter "HasRecentCytologyScreening" Boolean default false
+
+// Facility lab-capacity selector — A/641 §2.2 specifies different age cycles
+// based on whether the facility can run HPV high-risk DNA tests in-house.
+//   true  → HPV pathway (ages 35 and 45 only)
+//   false → cytology pathway (the 11-age 3-year cycle: 30, 33, 36, 39, 42,
+//           45, 48, 51, 54, 57, 60)
+// Real implementation will derive this from a Location/Organization extension
+// or from a facility-registry lookup; in this iteration it is a parameter
+// the CDS client supplies.
+parameter "FacilityHasHPVCapability" Boolean default true
 
 context Patient
 
@@ -108,6 +119,35 @@ define "Client excluded — outside target age range (legal binding)":
  */
 define "Client excluded — prior hysterectomy (legal binding)":
   "HasHadHysterectomy"
+
+// =============================================================================
+// Cytology-pathway eligibility — A/641 §2.2 (cytology-only facilities)
+// Bindingness: legal — binding to cytology-only facilities under A/641
+//
+// Eleven binding ages on a 3-year cycle: 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60.
+// Applied when the facility has no HPV DNA testing capability.
+// =============================================================================
+
+/*
+ * The client is at one of the 11 binding cytology-pathway target ages
+ * per A/641 §2.2 (cytology-only facilities, 3-year cycle from 30 to 60).
+ */
+define "Client is at cytology pathway target age":
+  "Client age" in { 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60 }
+
+/*
+ * @output: CXCA.D#DE4 "Due for HPV screening" — but the test recommended is
+ *   cytology, not HPV (the screening name in CXCA.D#DE4 reflects the WHO
+ *   target test; both pathways are flavors of "cervical cancer screening").
+ * @bindingness: legal
+ * Cytology-pathway client is due if at one of the 11 target ages, the facility
+ * lacks HPV capability, no hysterectomy, and no recent valid cytology screening.
+ */
+define "Client is due for cytology screening (legal binding)":
+  "Client is at cytology pathway target age"
+    and not "FacilityHasHPVCapability"
+    and not "HasHadHysterectomy"
+    and not "HasRecentCytologyScreening"
 
 // =============================================================================
 // Programmatic-overlay eligibility — April 2025 launch's 30/40 announcement
