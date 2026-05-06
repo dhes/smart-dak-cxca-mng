@@ -16,13 +16,32 @@
  * single boolean.
  *
  * PLACEHOLDER PATTERN — read carefully:
- *   The current implementation uses simple boolean parameters as stand-ins
- *   for FHIR data queries. Real implementation queries (Observations for
- *   prior HPV screening, Procedures for hysterectomy history) require a
- *   shared CXCAElements layer that hasn't been authored yet. The defines
- *   below are structurally correct and pluggable — replacing the parameter
- *   reads with FHIR queries is mechanical work that doesn't change the
- *   PlanDefinition or downstream consumers.
+ *   This rule references four predicates. One has been migrated to a real
+ *   FHIR query in the shared CXCAElements layer; three remain as Boolean
+ *   parameters that the CDS client must supply at evaluation time.
+ *
+ *     ✓ Migrated   Elements."Has Had Hysterectomy"
+ *                  → real query against [Procedure] with code CXCA.D#DE45
+ *
+ *     ⏸ Placeholder "HasRecentHPVScreening", "HasRecentCytologyScreening"
+ *                  → straightforward queries in shape, but require a design
+ *                    decision on the recall window: parameterize the interval
+ *                    (one define for both pathways) or author sibling defines
+ *                    (HPV-recent at 10y, cytology-recent at 3y per A/641 §2.2)?
+ *                    Held until the design call is made.
+ *
+ *     ⏸ Placeholder "FacilityHasHPVCapability"
+ *                  → not actually a per-patient FHIR query — this is facility
+ *                    configuration. Real implementation could derive it from a
+ *                    Location/Organization extension OR keep it as a parameter
+ *                    the CDS client supplies. Both are defensible; left as a
+ *                    parameter for now.
+ *
+ *   The migration is structurally trivial: replacing a parameter read with
+ *   `Elements."<name>"` only changes the body of the consuming define. The
+ *   define's name, signature, and PlanDefinition wiring all stay intact, so
+ *   downstream consumers (the PlanDefinition actions, ActivityDefinitions,
+ *   fixtures) are unaffected.
  */
 
 library CXCAD2DTScreeningEligibilityLogic version '0.0.1'
@@ -31,17 +50,16 @@ using FHIR version '4.0.1'
 
 include FHIRHelpers version '4.0.1'
 
-// Shared elements layer — the harmonization substrate. Replaces the
-// `HasHadHysterectomy` parameter with a real FHIR-query-backed define.
-// (HasRecentHPVScreening and HasRecentCytologyScreening will be added to
-// CXCAElements in a future iteration once the per-period predicates are
-// authored; for now they remain local parameters.)
+// Shared elements layer — the harmonization substrate. Provides
+// `Has Had Hysterectomy` (a real FHIR query against [Procedure]); other
+// per-period predicates can be added here as they are authored.
 include CXCAElements called Elements
 
 parameter Today Date default Today()
 
-// Placeholder parameters still in use — to be migrated to CXCAElements
-// in subsequent refactoring passes.
+// Placeholder parameters — see PLACEHOLDER PATTERN in the file header for
+// the per-parameter rationale on why these remain as parameters rather than
+// migrating to CXCAElements queries.
 parameter "HasRecentHPVScreening" Boolean default false
 parameter "HasRecentCytologyScreening" Boolean default false
 

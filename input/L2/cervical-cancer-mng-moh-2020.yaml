@@ -1,0 +1,831 @@
+# =============================================================================
+# Mongolia MOH 2020 Cervical Cancer Surveillance Guideline — L2 Representation
+# =============================================================================
+#
+# ROLE
+#   This file is the L2 (operational) layer for the smart-dak-cxca DAK. It is
+#   the structured rendering of the Mongolia MOH A/641 (2020) ministerial
+#   order — the L1 source — into the axes / parameters / algorithms /
+#   triggers / forms / indicators that the L3 FHIR artifacts in this repo
+#   derive from.
+#
+#   Source-of-truth chain for this DAK:
+#       L1 (narrative)   A/641 PDF, WHO 2021 guideline, WHO Mongolia news items
+#                        ↓
+#       L2 (this file)   structured operational representation
+#                        ↓
+#       L3 (input/fsh, input/cql)   FHIR resources + CQL libraries
+#
+#   L3 artifacts cite this file via @source: anchors of the form
+#       l2://cervical-cancer-mng-moh-2020.yaml#<path>
+#   so that runtime contracts (PlanDefinition.action ↔ CQL define ↔
+#   ActivityDefinition triples) trace back to a versioned operational anchor.
+#
+# LINEAGE
+#   This file extends the "Shape B" representation that lived at
+#       dak-authoring-methodology/country-level/mongolia/
+#         cervical-cancer-mng-moh-2020-shape-b.yaml (2026-04-25 draft).
+#   The methodology repo retains a snapshot for documentation; this file
+#   is the canonical, versioned L2 going forward.
+#
+# WHAT'S NEW IN THIS REVISION (2026-05-06)
+#   1. Form catalog corrected to Cyrillic-letter set ЭИМ-5а..5е + АМ-5
+#      (the prior "ЭИМ-5.1 / ЭИМ-5.2" labels were a misreading).
+#   2. Op.Inst. 5.1 anamnesis intake structure added as a parameter.
+#   3. §2.3 recall trigger matrix added (six timeout rules).
+#   4. Result-code mapping added (Bethesda × CIN × ICD-10) from Annex 4/5.
+#   5. Bindingness layering added at the top level — A/641 (legal) vs. the
+#      April 2025 programmatic position vs. April 2026 pilot operational
+#      drift, all surfaced explicitly.
+#   6. Timeline section added: A/641 → April 2025 launch → April 2026
+#      Khan-Uul pilot conclusion, with regulatory-status annotations.
+#   7. Khan-Uul pilot evidence section added with the cascade numbers.
+#   8. Indicators section added (cxca's IND01–08 implementations, with
+#      Annex 2 cited as the upstream framework — full extraction pending).
+#   9. Mappings-to-L3 section added — explicit anchors so L3 CQL/FSH
+#      can cite this file by path.
+#
+# REPRESENTATION NOTES
+#   * Chapters relevant to L2: Ch. 2 (screening) and Ch. 5 (pre-cancer
+#     diagnosis & treatment). Ch. 1 (intro/anatomy), Ch. 3 (community),
+#     Ch. 4 (HPV vaccination), Ch. 6 (invasive cancer), Ch. 7 (palliative)
+#     are not represented here.
+#   * "Zurag" (Зураг) = figure/diagram in the source PDF.
+#   * "ЭИМ" = Эрүүл мэндийн бүртгэлийн маягт (health-registry form).
+#   * "АМ" = cancer-notification series; АМ-5 is the cervical-cancer
+#     notification page.
+#   * Op.Inst. = "Operational Instruction" (Үйлдлийн зааварчилгаа), the
+#     procedure-level SOPs in the back of the order.
+
+# -----------------------------------------------------------------------------
+# Versioning
+# -----------------------------------------------------------------------------
+version: 0.1.0
+revised: 2026-05-06
+authors:
+  - Dan Heslinga (independent contributor)
+license: CC0-1.0
+
+# =============================================================================
+# Section 1 — Guideline (L1 source) metadata
+# =============================================================================
+guideline:
+  id: mng-moh-order-a641-2020
+  title: Умайн хүзүүний хорт хавдрын цогц хяналтын заавар
+  title_en: Comprehensive Cervical Cancer Surveillance Guideline
+  authority: Ministry of Health of Mongolia
+  instrument: Ministerial Order A/641
+  issued: 2020-12-31
+  issued_by: T. Münkhsaikhan (Minister of Health)
+  legal_basis:
+    - "Law on Government of Mongolia, Article 24(2)"
+    - "Health Law, Article 8.1.3"
+    - "National Programme on Maternal, Child and Reproductive Health section 3.2.1.8"
+    - "National Programme on Non-Communicable Disease Prevention section 3.2.2, section 3.2.6"
+  implementing_bodies:
+    - { name: "MOH Medical Assistance Services Department", lead: "Ya. Buyanjargal" }
+    - { name: "National Cancer Center", lead: "N. Erdenekhuu" }
+    - { name: "MOH Cancer Specialty Branch Council", lead: "Ya. Erdene-Ochir" }
+  oversight: "Y. Amarjargal (State Secretary)"
+  supersedes:
+    - { ref: "moh-order-168/2011", partial: "appendix 3, section 3.1, section 6 parts (section 6.4, 6.4.1, 6.4.3, 6.4.5, 6.4.7), section 8.1" }
+    - { ref: "moh-order-76/2012",  partial: "appendix 1" }
+  superseded_by: null   # As of 2026-05-06, A/641 has NOT been superseded — verified
+                        # against MOH 2024/2025 orders registers (moh.gov.mn/laws/46
+                        # and /47) through 2025-10-03 (most recent order А/366).
+                        # See dak-authoring-methodology/country-level/mongolia/
+                        # a641-has-not-been-superceded.md for the verification trail.
+  bindingness: normative-national   # Coarse label; see top-level `bindingness:`
+                                    # section below for the layered regulatory
+                                    # positions that govern the 2025/2026 era.
+  source_type: country-moh
+  authorship:
+    development_team_members: 17    # "Боловсруулсан баг"
+    review_team_members: 15         # "Хянасан баг"
+  copy: country-level/mongolia/cervical-cancer-comprehensive-guideline-moh-order-a641-2020.pdf
+
+# =============================================================================
+# Section 2 — Bindingness layering
+# =============================================================================
+# A core methodology contribution of this DAK (and a generalizable point for
+# the SMART community): a single country-domain at a single point in time can
+# carry MORE THAN ONE regulatory position, and those positions can disagree
+# on operational specifics (target ages, schedules, etc.) without any of them
+# being wrong. The L2 must surface that explicitly so L3 doesn't collapse
+# them into a single rule.
+#
+# Three positions exist in Mongolia for cervical cancer screening as of 2026-05-06:
+bindingness:
+  - id: legal
+    label: "Legal (regulatory)"
+    instrument: "MOH Order A/641 (2020)"
+    status: "Currently in force; not superseded as of 2026-05-06."
+    target_ages: { hpv-capable: [35, 45], hpv-incapable: [30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60] }
+    binding_on: "All MOH-supervised health facilities providing cervical cancer screening services."
+    notes: |
+      This is the only position with the force of a ministerial order. A/641
+      explicitly partitions screening rules by facility lab capacity; both
+      partitions are legally binding, not optional alternatives.
+  - id: programmatic
+    label: "Programmatic overlay"
+    instrument: "April 2025 Cervical Cancer Elimination Initiative launch (MOH + WHO + NCC + UB City Health Dept)"
+    status: |
+      Announced as a programmatic position; NOT promulgated as a successor
+      ministerial order. A/641 remains the legal instrument.
+    target_ages: [30, 40]
+    binding_on: "Programme-funded sites under the elimination initiative."
+    notes: |
+      The April 2025 launch announced cervical cancer screening at ages 30
+      and 40 for participating sites. This is a Mongolia-specific overlay
+      on top of A/641, not a replacement for it. WHO Mongolia 2025 launch
+      announcement; National Acceleration Plan (Dr L. Tumurbaatar, 2026,
+      not yet located).
+    source_refs:
+      - country-level/mongolia/who-mongolia-cervical-cancer-elimination-launch-2025-04-21.md
+  - id: operational
+    label: "Operational drift"
+    instrument: "Khan-Uul HPV-DNA pilot, 2025–2026"
+    status: |
+      Empirical operational position observed during pilot execution.
+      Started at A/641's 35–45 range; expanded mid-execution to 40–60 due
+      to low participation in the original cohort.
+    target_ages: [40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60]
+    binding_on: "Khan-Uul District Health Center pilot only; not a generalizable rule."
+    notes: |
+      This position is recorded for evidentiary purposes (it explains the
+      cascade-attrition data in `pilot_evidence`) but should NOT be treated
+      as a screening rule in L3. It illustrates how operational realities
+      can diverge from both the legal and the programmatic positions.
+    source_refs:
+      - country-level/mongolia/who-mongolia-hpv-pilot-conclusion-2026-04-16.md
+
+# =============================================================================
+# Section 3 — Timeline (regulatory and operational)
+# =============================================================================
+timeline:
+  - { date: "2011",       event: "MOH Order 168 establishes prior screening regime (later partly superseded by A/641)." }
+  - { date: "2012",       event: "MOH Order 76 amends 2011 regime (appendix 1, later superseded by A/641)." }
+  - { date: "2020-12-31", event: "MOH Order A/641 promulgated; current legal instrument." }
+  - { date: "2022-01",    event: "UNFPA APRO + Cancer Council NSW publish Mongolia Country Review & Roadmap for Action — analytical groundwork for the elimination initiative." }
+  - { date: "2024",       event: "GAVI/UNICEF-funded HPV vaccine introduction (separate financing track from screening)." }
+  - { date: "2025-04-21", event: "Cervical Cancer Elimination Initiative launched in Ulaanbaatar; programmatic ages 30 and 40 announced." }
+  - { date: "2025-2026",  event: "Khan-Uul District HPV-DNA pilot — initially ages 35–45, expanded to 40–60 mid-execution." }
+  - { date: "2026-04-16", event: "WHO Mongolia publishes pilot conclusion: 5,382 women tested, 371 HPV+, 50% LTFU among HPV+." }
+  - { date: "2026-04-16", event: "National Acceleration Plan for Cervical Cancer Elimination presented (Dr L. Tumurbaatar) — instrument not yet located." }
+  - { date: "ongoing",    event: "Nationwide roll-out announced with Unitaid + Government of Japan funding under WHO technical guidance." }
+
+# =============================================================================
+# Section 4 — Axes
+# =============================================================================
+# Selector dimensions that any individual rule may depend on. Note these are
+# RICHER than WHO 2021's axis set — particularly `lab_capacity`, which WHO
+# 2021 does not carry as a first-class axis. This is one of the cxca DAK's
+# methodology contributions: surfacing facility lab capacity as a selector.
+axes:
+  lab_capacity:    [hpv-capable, hpv-incapable]
+  population:      [general, pregnant, post-menopausal, hiv-positive]
+  primary_test:    [hpv-dna, cytology]      # VIA defined as procedure but not used as screening test
+  approach:        [screen-triage-and-treat]    # screen-and-treat is NOT offered in Mongolia
+  cytology_result: [NILM, ASC-US, ASC-H, LSIL, HSIL, AGC]
+  hpv_result:      [negative, positive]
+  triage_test:
+    - reflex-cytology              # cytology slide collected at first visit, read only if HPV+
+    - colposcopy
+    - biopsy
+    - endocervical-curettage
+  cin_grade:       [none, CIN1, CIN2, CIN3, invasive-cancer]
+  bindingness:     [legal, programmatic, operational]   # cross-references Section 2
+
+# =============================================================================
+# Section 5 — Parameters
+# =============================================================================
+parameters:
+
+  # Ch. 2.2 — target age group & schedule, selected by lab capacity.
+  # @source: A/641 Ch. 2.2 + Annex 2; @bindingness: legal
+  - id: screening-schedule
+    bindingness: legal
+    depends_on: [lab_capacity]
+    values:
+      hpv-incapable:
+        test: cytology
+        ages: [30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60]
+        interval: 3y
+        notes: "11 scheduled tests between ages 30 and 60 inclusive."
+      hpv-capable:
+        test: hpv-dna
+        ages: [35, 45]
+        interval: 10y
+        lifetime_tests: 2
+        notes: "Only two lifetime HPV tests, at ages 35 and 45."
+
+  # Programmatic overlay from April 2025 launch.
+  # @source: who-mongolia-cervical-cancer-elimination-launch-2025-04-21.md
+  # @bindingness: programmatic
+  - id: screening-schedule-programmatic
+    bindingness: programmatic
+    depends_on: []
+    values:
+      ages: [30, 40]
+      interval: 10y
+      notes: "Programme-funded elimination-initiative sites only."
+
+  - id: start-age
+    bindingness: legal
+    depends_on: [lab_capacity]
+    values: { hpv-incapable: 30, hpv-capable: 35 }
+
+  - id: stop-age
+    bindingness: legal
+    depends_on: [lab_capacity]
+    values: { hpv-incapable: 60, hpv-capable: 45 }
+
+  # Ch. 2.2 — pregnancy inclusion
+  - id: pregnancy-inclusion
+    bindingness: legal
+    rule: "Pregnant women in the first 3 months of pregnancy may be included if otherwise eligible."
+
+  # Ch. 2.2 — exclusion rules
+  - id: exclusions
+    bindingness: legal
+    rules:
+      - id: excl-hpv-negative-lifetime
+        rule: "Women with negative HPV tests at BOTH ages 35 and 45 are removed from the screening registry."
+      - id: excl-cyto-stop-after-60
+        rule: "Women aged > 60 with consistent normal cytology results exit the cytology pathway."
+      - id: excl-post-hysterectomy
+        rule: >-
+          Women who had hysterectomy for non-cervical-cancer indication, provided
+          post-surgical vaginal-vault cytology is negative.
+
+  # Op.Inst. 5.1 — first-encounter anamnesis intake.
+  # @source: A/641 Op.Inst. 5.1 (pp. 105–106); see translated-mongolia-protocols-and-forms.md
+  # This is the per-client intake that gates eligibility evaluation. NO pre-printed
+  # form exists for the anamnesis itself — the worker captures into the ambulatory
+  # card. A subset of these fields ALSO appears as the embedded mini-anamnesis on
+  # forms ЭИМ-5б and ЭИМ-5в.
+  - id: anamnesis-intake
+    bindingness: legal
+    source: "Op.Inst. 5.1, pp. 105-106"
+    fields:
+      - { id: age,                          type: integer,    drives: eligibility }
+      - { id: education,                    type: string,     drives: demographic }
+      - { id: pregnancy-count,              type: integer }
+      - { id: delivery-count,               type: integer }
+      - { id: live-birth-count,             type: integer }
+      - { id: last-menstrual-period,        type: date,       drives: "sample timing — no cytology if menses heavy or pregnancy >3mo" }
+      - { id: menstrual-cycle-status,       type: string }
+      - { id: current-contraception,        type: string }
+      - { id: past-contraception,           type: string }
+      - { id: age-at-first-sexual-contact,  type: integer,    drives: risk-factor }
+      - { id: age-at-first-delivery,        type: integer,    drives: risk-factor }
+      - { id: number-of-sexual-partners,    type: integer,    drives: risk-factor }
+      - { id: sti-history,                  type: structured, drives: risk-factor }
+      - { id: last-cxca-screening-date,     type: date,       drives: "recall vs. new-enrollment branch" }
+      - { id: last-cxca-screening-test,     type: code,       values: [hpv, cytology, unknown] }
+      - { id: last-cxca-screening-result,   type: string }
+      - { id: past-disease-history,         type: string }
+      - { id: smoking,                      type: code,       values: [current, past, never], drives: risk-factor }
+      - { id: alcohol-use,                  type: code,       drives: risk-factor }
+      - { id: current-symptoms,             type: structured, examples: [bleeding, discharge, post-coital-bleeding] }
+    exam_parts:
+      - { order: 1, name: "External genitalia inspection" }
+      - { order: 2, name: "Speculum (mirror) inspection" }
+      - { order: 3, name: "Bimanual exam" }
+
+  # Ch. 5.1 — HPV DNA test characteristics
+  - id: hpv-dna-test
+    bindingness: legal
+    description: "Primary screening test in hpv-capable localities."
+    target_age: [35, 45]
+    panel: "14 high-risk HPV types"
+    pilot_platform: "careHPV (Qiagen) — pooled detection of 14 hr-HPV types; does not type 16/18 separately."
+    collection_sequence:
+      - "Cytology sample taken and stored first."
+      - "HPV DNA sample taken second."
+    rationale_under_30: >-
+      Not recommended under age 30 because most HPV infections in younger
+      women clear spontaneously.
+    procedure_ref: "5.2"
+
+  # Ch. 5.1 — acetic acid test (VIA/VILI) defined but NOT used as screening
+  - id: acetic-acid-test
+    bindingness: legal
+    description: "Defined as a procedure but NOT used in the national screening programme."
+    usable_when: "Transformation zone visible; under age 50."
+    not_suitable_when: "Post-menopausal (transformation zone retracts into cervical canal)."
+    solution: "3-5% acetic acid"
+    reading_time: "one minute"
+    procedure_ref: "5.3"
+
+  # Ch. 5.1 — cytology
+  - id: cytology-test
+    bindingness: legal
+    variants: [conventional-pap, liquid-based]
+    classification: "Bethesda system (Annex 5 = Bethesda 2014)."
+    target_age: [30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60]
+    applicability: "hpv-incapable localities."
+    procedure_ref: "5.4"
+
+  # Ch. 5.2 — diagnostic tests (triage)
+  - id: diagnostic-tests
+    bindingness: legal
+    items:
+      - { name: colposcopy,             magnification: "5-15x",                  procedure_ref: "5.6" }
+      - { name: tissue-biopsy,          under: colposcopy-guidance,              output: CIN-grade, procedure_ref: "5.7" }
+      - { name: endocervical-curettage, indications: [tz-not-fully-visible],     procedure_ref: "5.8" }
+      - { name: leep,                   indications: [CIN2, CIN3],               procedure_ref: "5.9" }
+
+# =============================================================================
+# Section 6 — Algorithms
+# =============================================================================
+algorithms:
+
+  # Ch. 2.2 Zurag 2.3 — cytology-based screening algorithm
+  - id: alg-cytology-arm
+    bindingness: legal
+    slice: { lab_capacity: hpv-incapable, primary_test: cytology }
+    name: "Cytology-based screening (localities without HPV capacity)."
+    schema_refs: [zurag-2.3]
+    forms: [ЭИМ-5а, ЭИМ-5в, ЭИМ-5д]
+    rule: |
+      Cytology taken from women at ages {30,33,36,39,42,45,48,51,54,57,60}.
+      Result NILM (negative)         -> next scheduled screening.
+      Result >= ASC-US               -> follow appropriate Ch. 5 sub-algorithm
+                                        by Bethesda category.
+
+  # Ch. 2.2 Zurag 2.4 — HPV-based screening algorithm
+  - id: alg-hpv-arm
+    bindingness: legal
+    slice: { lab_capacity: hpv-capable, primary_test: hpv-dna }
+    name: "HPV DNA-based screening (localities with HPV capacity)."
+    schema_refs: [zurag-2.4]
+    forms: [ЭИМ-5а, ЭИМ-5б, ЭИМ-5в, ЭИМ-5г, ЭИМ-5д, АМ-5]
+    rule: |
+      Cytology sample taken and stored; HPV sample sent to lab.
+      HPV negative                   -> return to routine interval (next test
+                                        at 45 if first test was at 35).
+      HPV positive                   -> reflex cytology (read stored sample).
+        reflex cytology negative     -> repeat HPV at +1 year.
+          repeat HPV negative        -> return to routine.
+          repeat HPV positive        -> colposcopy.
+        reflex cytology >= ASC-US    -> colposcopy.
+      Colposcopy adequate            -> biopsy.
+        biopsy negative              -> next scheduled screening.
+        biopsy CIN1                  -> follow CIN protocol.
+        biopsy CIN2/CIN3             -> follow CIN protocol (LEEP / cone).
+        biopsy cancer                -> follow cancer pathway (form АМ-5).
+      Colposcopy inadequate          -> endocervical curettage + biopsy.
+      Exit conditions:
+        - negative at age 35 AND age 45 -> remove from screening registry.
+        - age 35 negative               -> continue to scheduled HPV at 45.
+
+  # Programmatic-overlay algorithm — April 2025 launch.
+  # Same shape as alg-hpv-arm but at programmatic ages 30/40.
+  - id: alg-hpv-arm-programmatic
+    bindingness: programmatic
+    slice: { primary_test: hpv-dna }
+    name: "HPV DNA-based screening (April 2025 programmatic overlay, ages 30 and 40)."
+    rule: |
+      Identical to alg-hpv-arm, but target ages are {30, 40} per the April 2025
+      launch announcement. Triage tree (reflex cytology -> colposcopy -> biopsy)
+      is unchanged.
+    notes: |
+      This algorithm is enacted only at programme-funded sites under the
+      elimination initiative. A/641's legal binding still applies to all
+      MOH-supervised facilities outside the programme.
+
+# =============================================================================
+# Section 7 — Triage sub-algorithms (Ch. 5.3, Bethesda-branched)
+# =============================================================================
+triage_sub_algorithms:
+  - id: trs-asc-us-general
+    bindingness: legal
+    when: { cytology_result: ASC-US, population: general }
+    schema_ref: zurag-5.1
+    rule: |
+      Two options:
+      (a) Repeat cytology at 4–6 months; if negative -> next routine;
+          if >= ASC-US -> colposcopy.
+      (b) Direct colposcopy; CIN/cancer found -> CIN/cancer protocol;
+          not found -> repeat cytology at 12 months.
+
+  - id: trs-asc-us-post-menopausal
+    bindingness: legal
+    when: { cytology_result: ASC-US, population: post-menopausal }
+    schema_ref: zurag-5.2
+    rule: |
+      If no contraindication -> topical estrogen therapy -> repeat cytology
+      7 days after completion -> if negative, repeat again at 4–6 months ->
+      if negative, next routine. If any step >= ASC-US -> colposcopy.
+      Colposcopy findings: CIN/cancer -> CIN/cancer protocol; otherwise ->
+      repeat cytology at 12 months.
+
+  - id: trs-asc-h
+    bindingness: legal
+    when: { cytology_result: ASC-H, population: all }
+    schema_ref: zurag-5.3
+    rule: |
+      Direct colposcopy.
+      Biopsy-confirmed CIN (any grade) -> CIN protocol.
+      No finding                       -> repeat cytology + colposcopy at 2-3 months.
+
+  - id: trs-lsil-general
+    bindingness: legal
+    when: { cytology_result: LSIL, population: general }
+    schema_ref: zurag-5.4
+    rule: |
+      Direct colposcopy.
+      CIN/cancer found    -> CIN/cancer protocol.
+      Not found           -> repeat cytology at 6-12 months.
+        negative          -> next routine.
+        >= ASC-US         -> repeat colposcopy.
+    note: "Pregnant and post-menopausal women follow different schemas."
+
+  - id: trs-lsil-post-menopausal
+    bindingness: legal
+    when: { cytology_result: LSIL, population: post-menopausal }
+    schema_ref: zurag-5.5
+    rule: |
+      Estrogen therapy first; then repeat cytology 7 days after completion.
+      Negative          -> repeat cytology at 4-6 months.
+      >= ASC            -> colposcopy.
+
+  - id: trs-hsil
+    bindingness: legal
+    when: { cytology_result: HSIL, population: all }
+    schema_ref: zurag-5.6
+    rule: |
+      Colposcopy.
+      If colposcopy assessable:
+        biopsy CIN2,3 confirmed -> CIN or cancer protocol.
+        CIN1 / no finding       -> re-review material.
+          material review >= CIN2 -> LEEP (electrical excision) or treat per CIN protocol.
+          material review < CIN2  -> repeat cytology at 6 months.
+      If colposcopy not assessable -> biopsy alternative procedure.
+        CIN (any grade) confirmed  -> follow CIN protocol.
+
+# =============================================================================
+# Section 8 — Special conditions (Ch. 5.2)
+# =============================================================================
+special_conditions:
+  - id: ecc-indication-tz
+    bindingness: legal
+    when: "Transformation zone not fully visible."
+    action: "Endocervical curettage + biopsy; if not feasible, ablative cryotherapy or cervical excision considered."
+  - id: pregnancy-positive-screen
+    bindingness: legal
+    when: { population: pregnant, screening: positive }
+    action: >-
+      Colposcopy during pregnancy if cervical changes visible. Biopsy 6-12 weeks
+      post-partum unless invasive cancer suspected; if invasive cancer suspected,
+      refer to specialist centre.
+  - id: hiv-positive-handling
+    bindingness: legal
+    rule: "Colposcopy and biopsy follow the same indications as HIV-negative; no modification of screening protocol based on HIV alone."
+
+# =============================================================================
+# Section 9 — Recall trigger matrix (Ch. 2.3, p. 28)
+# =============================================================================
+# Six concrete operational timeouts that the registry/recall system uses to
+# detect cascade-attrition events. These are the L2 source for any L3
+# OverdueFor / "X has not happened by Y" CQL define.
+#
+# Each row's clock starts at a specific event and fires when no resolving
+# event has occurred within the threshold.
+recall_triggers:
+  - id: hpv-result-not-in-registry
+    bindingness: legal
+    clock_starts_at: "HPV sample dispatched to lab"
+    threshold: 3w
+    condition: "HPV result not yet entered into the screening registry"
+    action: "Flag the dispatching facility for follow-up with the lab"
+
+  - id: cytology-slide-unread
+    bindingness: legal
+    clock_starts_at: "Cytology slide received at lab"
+    threshold: 2w
+    condition: "Cytology not yet read"
+    action: "Flag the cytology lab for delayed read"
+
+  - id: positive-result-no-followup
+    bindingness: legal
+    clock_starts_at: "Positive screening result entered into registry"
+    threshold: 4w
+    condition: "No follow-up exam (reflex cytology, colposcopy, etc.) recorded"
+    action: "Issue first reminder (form ЭИМ-5е) to client"
+
+  - id: biopsy-unread
+    bindingness: legal
+    clock_starts_at: "Biopsy tissue received at lab"
+    threshold: 4w
+    condition: "Biopsy not yet read"
+    action: "Flag the histology lab for delayed read"
+
+  - id: positive-biopsy-no-treatment
+    bindingness: legal
+    clock_starts_at: "Positive biopsy diagnosis entered into registry"
+    threshold: 4w
+    condition: "No treatment record (LEEP, cone, ablation, etc.)"
+    action: "Refer client back to gynecologist; if necessary escalate to NCC"
+
+  - id: second-reminder
+    bindingness: legal
+    clock_starts_at: "First reminder (ЭИМ-5е) sent"
+    threshold: 4w
+    condition: "Client has not responded or attended"
+    action: "Issue second reminder; consider community-health-worker outreach"
+
+  - id: missed-scheduled-exam
+    bindingness: legal
+    clock_starts_at: "Client's scheduled exam date"
+    threshold: 0d
+    condition: "Client did not attend scheduled exam"
+    action: "Immediate flag for outreach"
+
+# =============================================================================
+# Section 10 — Result code mapping (Annex 4 Table X.4 + Annex 5)
+# =============================================================================
+# Cytology (Bethesda 2014) × histology (CIN) × ICD-10 mapping. Used by both
+# data-entry forms (where the worker selects one) and indicators (where the
+# numerator/denominator is computed by code). Source: A/641 Annex 4 Table X.4
+# combined with Annex 5 Bethesda classification.
+result_code_mapping:
+  - { cytology: NILM,        bethesda_class: I,   histology: normal,   icd10: ["Z01.4", "Z12.4"] }
+  - { cytology: ASC-US,      bethesda_class: II,  histology: normal,   icd10: ["N87.0", "N87.1", "N87.2", "N87.9"] }
+  - { cytology: ASC-H,       bethesda_class: II,  histology: normal,   icd10: ["N87.0", "N87.1", "N87.2", "N87.9"] }
+  - { cytology: LSIL,        bethesda_class: III, histology: CIN1,     icd10: ["N87.0"] }
+  - { cytology: HSIL,        bethesda_class: III, histology: CIN2,     icd10: ["N87.1"] }
+  - { cytology: HSIL,        bethesda_class: III, histology: CIN3,     icd10: ["N87.2"] }
+  - { cytology: HSIL,        bethesda_class: IV,  histology: CIS,      icd10: ["D06"] }
+  - { cytology: invasive,    bethesda_class: V,   histology: invasive, icd10: ["C53.0", "C53.1", "C53.8", "C53.9"] }
+
+# =============================================================================
+# Section 11 — Procedures (Ch. 5)
+# =============================================================================
+procedures:
+  - { id: "5.1", name_en: "History-taking and gynecological examination",      name_mn: "Дурдатгал (анамнез) авах, эмэгтэйчүүдийн тусгайлсан үзлэг хийх" }
+  - { id: "5.2", name_en: "Molecular biology method — HPV DNA test",           name_mn: "Молекул биологийн арга — Хүний папиллома вирусын ДНХ илрүүлэх шинжилгээ" }
+  - { id: "5.3", name_en: "Acetic acid test (VIA)",                            name_mn: "Цууны хүчлийн сорил" }
+  - { id: "5.4", name_en: "Cytology examination",                              name_mn: "Эсийн шинжилгээ" }
+  - { id: "5.5", name_en: "Counseling on positive result",                     name_mn: "Шинжилгээний хариу эерэг гарсан тохиолдолд өгөх зөвлөгөө" }
+  - { id: "5.6", name_en: "Colposcopy examination",                            name_mn: "Кольпоскопийн шинжилгээ" }
+  - { id: "5.7", name_en: "Histology (tissue biopsy)",                         name_mn: "Эдийн шинжилгээ" }
+  - { id: "5.8", name_en: "Endocervical curettage and biopsy",                 name_mn: "Умайн хүзүүний сувгаас хусаж авах шинжилгээ" }
+  - { id: "5.9", name_en: "LEEP — Loop Electrical Excision Procedure",         name_mn: "Умайн хүзүүг цахилгаан гогцоогоор өөлөх эмчилгээ: LEEP" }
+
+# =============================================================================
+# Section 12 — Registry forms (corrected Cyrillic-letter catalog)
+# =============================================================================
+# CORRECTION FROM PRIOR DRAFT
+#   The 2026-04-25 Shape B draft labelled these as "ЭИМ-5.1" and "ЭИМ-5.2".
+#   That was a misreading. The actual A/641 form catalog (Table 2.1, p. 27)
+#   uses Cyrillic-letter suffixes а..е. The full correct set is below.
+#
+# The forms are the recall-system substrate: ЭИМ-5а enrolls the client,
+# ЭИМ-5б/5в/5г accompany samples to lab, ЭИМ-5д returns results to the
+# client, ЭИМ-5е drives recall reminders, and АМ-5 escalates invasive
+# cancer findings.
+forms:
+  - id: ЭИМ-5а
+    purpose: "Invitation to screening / enrollment into recall system."
+    location: "Annex 1, p. 147"
+    fields_summary:
+      - "Овог (last name), Нэр (first name)"
+      - "Phone, address, email"
+      - "Birth month, birth year"
+      - "Screening type: ☐ cytology-based ☐ HPV-based"
+      - "Scheduled date/time"
+    used_in: [alg-cytology-arm, alg-hpv-arm]
+
+  - id: ЭИМ-5б
+    purpose: "HPV sample referral (accompanies sample to lab)."
+    location: "Annex 1, p. 148"
+    embedded_anamnesis: true
+    fields_summary:
+      - "Identifiers: Регистр (national ID), name, age, address, phones, email"
+      - "Sample date, lab dispatch date, last menstrual period date"
+      - "Зовуурь (symptoms), ЖСА хэрэглээ (contraception), smoker, prior screen, HPV vaccinated, prior cadence, prior abnormality, treatment received, tampon use"
+      - "Speculum finding, colposcopy finding"
+    used_in: [alg-hpv-arm]
+
+  - id: ЭИМ-5в
+    purpose: "Cytology sample referral (accompanies slide to lab)."
+    location: "Annex 1, p. 149"
+    embedded_anamnesis: true
+    fields_summary: "Same shape as ЭИМ-5б; differs only in sample type marker."
+    used_in: [alg-cytology-arm, alg-hpv-arm]   # Both arms can produce cytology
+
+  - id: ЭИМ-5г
+    purpose: "Tissue (biopsy / LEEP / cone) sample referral."
+    location: "Annex 1, p. 150"
+    fields_summary:
+      - "Pregnancy status, gravida/para/abortion/miscarriage counts"
+      - "Prior cervical biopsy, TORCH status, preliminary clinical dx"
+    used_in: [alg-hpv-arm]
+
+  - id: ЭИМ-5д
+    purpose: "Result/conclusion sheet given back to the client."
+    location: "Annex 1, p. 151"
+    fields_summary: "Free-text result, diagnosis, follow-up plan."
+    used_in: [alg-cytology-arm, alg-hpv-arm]
+
+  - id: ЭИМ-5е
+    purpose: "Recall reminder for repeat screening / follow-up."
+    location: "Annex 1, p. 152"
+    fields_summary:
+      - "Reason: ☐ prior sample inconclusive / ☐ post-treatment outcome / ☐ scheduled follow-up"
+      - "Whether the client showed up; if not, what action was taken"
+    used_in: [recall_triggers.positive-result-no-followup, recall_triggers.second-reminder]
+
+  - id: АМ-5
+    purpose: "Cervical-cancer notification page (when invasive cancer detected)."
+    location: "Cancer-notification series"
+    used_in: [alg-hpv-arm]   # invoked when biopsy returns invasive
+
+access_controls: "Op.Inst. 2.2 — restrictions on electronic-registry access by health organization."
+
+# =============================================================================
+# Section 13 — Indicators (Annex 2)
+# =============================================================================
+# A/641 Annex 2 establishes the indicator framework. The list below covers
+# the indicators that have been operationalised in the cxca DAK as L3
+# Measure resources (input/fsh/measures/CXCAIND*.fsh). The full Annex 2
+# framework references at least 9 distinct metrics (cited in source extracts);
+# extracting the complete catalog is an open follow-up — see `open_followups`.
+indicators:
+  - id: CXCAIND01
+    bindingness: legal
+    title: "Cervical Cancer Screening Coverage at Age 35"
+    source_anchor: "A/641 Annex 2 #6 (coverage %), HPV-pathway first binding age."
+    l3_artifact: input/fsh/measures/CXCAIND01.fsh
+  - id: CXCAIND02
+    bindingness: legal
+    title: "Cytology-pathway coverage"
+    source_anchor: "A/641 Annex 2 — coverage at cytology-pathway target ages."
+    l3_artifact: input/fsh/measures/CXCAIND02.fsh
+  - id: CXCAIND03
+    bindingness: legal
+    title: "HPV positivity rate"
+    source_anchor: "A/641 Annex 2 — positivity metric on the HPV arm."
+    l3_artifact: input/fsh/measures/CXCAIND03.fsh
+  - id: CXCAIND04
+    bindingness: legal
+    title: "Cervical Cancer Screening Coverage at Age 45"
+    source_anchor: "A/641 Annex 2 #6 (coverage %), HPV-pathway second binding age."
+    l3_artifact: input/fsh/measures/CXCAIND04.fsh
+  - id: CXCAIND06
+    bindingness: legal
+    title: "Cascade completion (HPV+ to follow-up cytology)"
+    source_anchor: "Derived from §2.3 recall triggers + Annex 2 cascade metrics."
+    l3_artifact: input/fsh/measures/CXCAIND06.fsh
+    methodology_notes: |
+      One of the four methodology contributions of this DAK: numerator includes
+      both "cytology performed" AND "explicit non-occurrence" (via the
+      CXCAServiceNotRequested profile). Patients absent from records are
+      neither numerator nor denominator, surfacing rather than hiding LTFU.
+  - id: CXCAIND07
+    bindingness: legal
+    title: "Detection rate / Илрүүлгийн түвшин"
+    source_anchor: "A/641 Annex 2 #9."
+    l3_artifact: input/fsh/measures/CXCAIND07.fsh
+  - id: CXCAIND08
+    bindingness: legal
+    title: "Treatment completion among biopsy-positive women"
+    source_anchor: "Derived from §2.3 positive-biopsy-no-treatment trigger."
+    l3_artifact: input/fsh/measures/CXCAIND08.fsh
+
+# =============================================================================
+# Section 14 — Pilot evidence (Khan-Uul HPV-DNA pilot, 2025-2026)
+# =============================================================================
+# Empirical cascade-completion data from the only Mongolia HPV-DNA pilot.
+# This section is not normative — it cannot be cited as an L2 rule — but it
+# provides the empirical motivation for the cascade-completion indicators
+# and the recall-trigger matrix.
+pilot_evidence:
+  id: khan-uul-hpv-pilot
+  source: country-level/mongolia/who-mongolia-hpv-pilot-conclusion-2026-04-16.md
+  source_url: https://www.who.int/mongolia/news/feature-stories/detail-wpro/moh-and-who-concludes-pilot-on-hpv-testing-for-cervical-cancer-screening-in-mongolia
+  publication_date: 2026-04-16
+  pilot_site: "Khan-Uul District Health Center + 26 family clinics (Ulaanbaatar)"
+  test_platform: "careHPV (14 high-risk HPV types pooled)"
+  initial_age_range: [35, 45]            # A/641 legal range
+  expanded_age_range: [40, 60]           # operational drift, not legal
+  cascade:
+    hpv_tested: 5382
+    hpv_positive: 371
+    hpv_negative: 5011
+    cytology_completed: 184              # of 371 HPV+
+    lost_to_followup: 187                # ≈50% of HPV+
+    cytology_abnormal: 54
+    cytology_normal: 130
+    biopsy_completed: 19                 # of 54 cytology-abnormal
+    biopsy_not_obtainable: 35
+    histology_precancer: 9
+    histology_stage_0: 7
+    histology_normal: 3
+    treated_at_ncc: 9                    # 7 stage-0 + 2 precancer
+    counseled_only: 2
+  largest_attrition: "187 HPV+ women lost to follow-up between HPV result and reflex cytology (~50%)."
+  l3_implication: |
+    The largest single point of attrition is exactly the population the
+    §2.3 recall logic (forms ЭИМ-5е reminder cadence; recall_triggers above)
+    is supposed to catch. This is the empirical justification for why those
+    triggers matter operationally, not just on paper, and for the
+    CXCAServiceNotRequested NotDone profile that lets these patients be
+    represented in queries rather than absent from data systems.
+  burden_2026:
+    annual_new_cases: ">500"
+    late_stage_proportion: ">40%"
+    rank_among_women_cancers: 2          # second most common
+    rank_cancer_death_cause: 3           # third leading
+
+# =============================================================================
+# Section 15 — Mappings to L3 (cxca DAK)
+# =============================================================================
+# Explicit anchors so L3 CQL/FSH artifacts can cite this file by path. The
+# convention is `l2://cervical-cancer-mng-moh-2020.yaml#<jq-path>`.
+mappings_to_l3:
+  - l2_anchor: parameters[id=screening-schedule].values.hpv-capable
+    l3_artifacts:
+      - input/cql/CXCAD2DTScreeningEligibilityLogic.cql#"Client is at binding target age (35 or 45)"
+      - input/fsh/plandefinitions/CXCAD2DTScreeningEligibility.fsh
+  - l2_anchor: parameters[id=screening-schedule].values.hpv-incapable
+    l3_artifacts:
+      - input/cql/CXCAD2DTScreeningEligibilityLogic.cql#"Client is at cytology pathway target age"
+      - input/fsh/plandefinitions/CXCAD2DTScreeningEligibility-Cytology.fsh
+  - l2_anchor: parameters[id=screening-schedule-programmatic]
+    l3_artifacts:
+      - input/cql/CXCAD2DTScreeningEligibilityLogic.cql#"Client is at programmatic target age (30 or 40)"
+      - input/fsh/plandefinitions/CXCAMNGD2DTScreeningEligibility-Programmatic.fsh
+  - l2_anchor: parameters[id=exclusions].rules[id=excl-post-hysterectomy]
+    l3_artifacts:
+      - input/cql/CXCAElements.cql#"Has Had Hysterectomy"
+      - input/cql/CXCAD2DTScreeningEligibilityLogic.cql#"Client excluded — prior hysterectomy (legal binding)"
+  - l2_anchor: algorithms[id=alg-hpv-arm]
+    l3_artifacts:
+      - input/fsh/plandefinitions/CXCAD2DTHPVResultRouting.fsh
+  - l2_anchor: recall_triggers
+    l3_artifacts:
+      - input/fsh/plandefinitions/CXCAD18SRecallScheduling.fsh
+      - input/fsh/profiles/CXCAServiceNotRequested.fsh
+  - l2_anchor: result_code_mapping
+    l3_artifacts:
+      - input/fsh/codesystems/CXCA.D.fsh
+  - l2_anchor: bindingness
+    l3_artifacts:
+      - input/fsh/codesystems/CXCA.Bindingness.fsh
+      - input/fsh/extensions/cxca-bindingness.fsh
+  - l2_anchor: indicators
+    l3_artifacts:
+      - input/fsh/measures/CXCAIND01.fsh
+      - input/fsh/measures/CXCAIND02.fsh
+      - input/fsh/measures/CXCAIND03.fsh
+      - input/fsh/measures/CXCAIND04.fsh
+      - input/fsh/measures/CXCAIND06.fsh
+      - input/fsh/measures/CXCAIND07.fsh
+      - input/fsh/measures/CXCAIND08.fsh
+  - l2_anchor: parameters[id=anamnesis-intake]
+    l3_artifacts:
+      - "(deferred)"   # No L3 questionnaire authored yet — see open_followups
+
+# =============================================================================
+# Section 16 — Notes
+# =============================================================================
+notes:
+  - "A/641 makes the 2011 screening regime (Order 168/2011 appendix 3) and 2012 amendment (Order 76/2012 appendix 1) partly invalid — see guideline.supersedes for the specific sections."
+  - "Screen-and-treat approach is NOT offered; all positive screens must be triaged through colposcopy + biopsy before treatment. This is a stricter stance than WHO 2021, which offers both approaches."
+  - "VIA is defined as a procedure (Op.Inst. 5.3) but is NOT used in the national screening programme."
+  - "Burden numbers diverge between the April 2025 launch piece (361 new cases / 156 deaths; cervical cancer cited as leading cause of cancer-related deaths in women) and the April 2026 pilot conclusion (>500 cases/year; ranked third). Discrepancy is unexplained — possible updated case counts and/or different counting basis."
+
+# =============================================================================
+# Section 17 — Open follow-ups
+# =============================================================================
+open_followups:
+  - "Locate and represent the National Acceleration Plan for Cervical Cancer Elimination (Dr L. Tumurbaatar, presented April 2026) — likely the document that operationalises the 30/40 ages."
+  - "Extract the full Annex 2 indicator framework (the L3 currently implements 7 of an estimated >9 metrics)."
+  - "Extract Ch. 4 (HPV vaccination) — primary prevention, outside WHO Table 1 scope, but a natural extension to the cxca DAK."
+  - "Author an L3 Questionnaire derived from anamnesis-intake (Op.Inst. 5.1) — currently deferred."
+  - "Obtain the full 2011 MOH Order 168 to anchor the pre-2020 'from' state."
+  - "Watch for any post-2026 ministerial order successor to A/641; nationwide HPV roll-out (Unitaid + Government of Japan funding) is a likely trigger."
+  - |
+    Build a translation-provenance trail for SME critique: a bilingual
+    side-by-side document keyed to L2 anchors, showing for each L2-relevant
+    section the original Mongolian, the English translation, and the L2
+    representation. This makes the L1->L2 derivation auditable independently
+    of the L2->L3 derivation. Existing assets to fold in (and verify, since
+    they are first-pass artifacts dated 2026-04-26 and may not match the
+    deeper extraction reflected in this 2026-05-06 L2):
+      - dak-authoring-methodology/country-level/mongolia/Mongolia_MOH_Cervical_Cancer_Guideline_Ch2_Ch5_EN.docx
+      - dak-authoring-methodology/country-level/mongolia/Mongolia_MOH_Cervical_Cancer_Algorithms_EN.docx
+      - dak-authoring-methodology/country-level/mongolia/translated-mongolia-protocols-and-forms.md
+    Scope: L2-relevant sections only (Ch. 2, Ch. 5, Op.Inst. 5.1, Annex 1,
+    Annex 2). Estimated effort 30-50 pages of bilingual markdown.
+  - |
+    Full word-for-word translation of A/641 (chapters outside L2 scope —
+    Ch. 1 intro/anatomy, Ch. 3 community engagement, Ch. 4 HPV vaccination,
+    Ch. 6 invasive cancer, Ch. 7 palliative): out of scope for this
+    community contribution. Any commercial implementer deploying the cxca
+    DAK in Mongolia would commission a professional certified translation
+    rather than rely on an unaudited model translation. Flagging here so
+    the gap is visible, not so it gets filled by LLM output.

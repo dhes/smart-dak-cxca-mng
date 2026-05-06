@@ -292,3 +292,4 @@ parameters:
   - input/cql
   path-binary:
   - input/cql
+  - input/L2
