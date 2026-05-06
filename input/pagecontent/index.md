@@ -21,32 +21,26 @@ The clinical content in this DAK derives from:
 
 ### L2 Operational guidelines
 
-This DAK is a community contribution and is not (yet) published in the WHO IRIS catalogue. The repository and implementation tools are available at the project repository.
+This DAK does not ship a separate xlsx-based L2 publication (the conventional WHO format). Instead, the L2 operational content — data dictionary, decision-support logic, scheduling logic, indicators — is encoded directly in the L3 machine-readable layer (this IG) and surfaced via the following navigation pages:
 
-- Implementation tools:
+- [Data Dictionary](dictionary.html) — the `CXCA.D` and `CXCA.Bindingness` CodeSystems
+- [Decision-support Logic](decision-logic.html) — the active PlanDefinitions for screening eligibility, HPV result routing, and cytology pathway
+- [Scheduling Logic](scheduling-logic.html) — the recall scheduling layer (CXCAD18S, the LTFU-prevention process)
+- [Indicators](indicators.html) — the seven active eCQM Measure resources, including the methodology-contribution cascade-completion measure
+- [Business Processes](business-processes.html) — workflow framing (BPMN authoring deferred)
+- [System Requirements](system-requirements.html) — capability framing (xlsx requirements doc deferred)
 
-   - [Link to the editable files of business processes, in .bpmn format](https://smart.who.int/dak-cxca/business-processes.html)
-   
-   - [Link to core data dictionary](https://smart.who.int/dak-cxca/dictionary.html)
- 
-   - [Link to decision support logic](https://smart.who.int/dak-cxca/decision-logic.html) 
+### L3 Machine-readable guidelines
 
-   - [Link to scheduling logic](https://smart.who.int/dak-cxca/scheduling-logic.html)
-
-   - [Link to indicators table](https://smart.who.int/dak-cxca/indicators.html)
- 
-   - [Link to functional and non functional requirements](https://smart.who.int/dak-cxca/system-requirements.html)
-
-   
-
-### L3 Machine readable guidelines
-The L3 FHIR Implementation Guide for the cervical cancer screening SMART Guidelines is yet to be published. Links will be published here as soon as they're available.
+**This DAK is the L3 machine-readable representation.** The artifacts (FHIR profiles, CQL libraries, FSH source, PlanDefinitions, ActivityDefinitions, Measures, Questionnaires, LogicalModels) are published in this Implementation Guide. See the [Artifact Index](artifacts.html) for the full inventory or [Adapting Guidelines for Country Use](adapting.html) for the methodology overview.
 
 ### L4 Executable guidelines
-Reference implementations representing the L4 layer for the cervical cancer screening SMART Guidelines are not yet available. Links will be published here as soon as they're available.
+
+Reference implementations (executable software hosting the L3 artifacts) are not part of this repository. Implementation work in candidate Open Technologies — particularly Google Open Health Stack on Android FHIR SDK as a candidate L4 host — is being explored separately. See [Reference Implementations](reference-implementations.html).
 
 ### L5 Dynamic guidelines
-Content representing the L5 layer for the cervical cancer screening SMART Guidelines are not yet available. Links will be published here as soon as they're available.
+
+L5 dynamic-knowledge content is out of scope for this DAK.
 
 ### Contact Us
 
@@ -62,7 +56,7 @@ This work is licensed under a
 [cc-by-image]: https://i.creativecommons.org/l/by-nc-sa/3.0/igo/88x31.png
 [cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%203.0-lightgrey.svg
 
-For more license details please see the [license page](https://smart.who.int/dak-cxca/license.html).
+For more license details please see the [license page](license.html).
 
 ### Providing Feedback
 {% include feedback.md %}
