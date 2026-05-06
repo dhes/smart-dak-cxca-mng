@@ -86,3 +86,26 @@ Description: "Data elements for the cervical cancer screening Digital Adaptation
 * #DE26 "Past screening: normal / negative" "Client's most recent prior screening result was normal / negative for cervical pre-cancer or cancer."
 * #DE27 "Past screening: abnormal / positive" "Client's most recent prior screening result was abnormal / positive (any abnormality — finer classification not captured at this level)."
 * #DE28 "Past screening: result unknown" "Client recalls having been screened but cannot recall the result, or the result is not in available records."
+
+// -----------------------------------------------------------------------------
+// Bethesda 2014 cytology categories — A/641 Annex 5; standard system used
+// in cytology re-read after a positive HPV result (per Fig 2.4 routing tree)
+// -----------------------------------------------------------------------------
+* #DE29 "Cytology: NILM (negative for intraepithelial lesion or malignancy)" "Bethesda 2014 NILM. Cytology shows no evidence of pre-cancerous or cancerous change. In the HPV+ pathway this returns the patient to a 1-year repeat HPV cycle per A/641 Fig 2.4."
+* #DE30 "Cytology: ASC-US (atypical squamous cells of undetermined significance)" "Bethesda 2014 ASC-US. Atypical squamous cells of undetermined significance. Triggers colposcopy referral in the HPV+ pathway per A/641 Fig 2.4."
+* #DE31 "Cytology: ASC-H (atypical squamous cells, cannot exclude HSIL)" "Bethesda 2014 ASC-H. Atypical squamous cells where high-grade squamous intraepithelial lesion (HSIL) cannot be excluded. Triggers colposcopy referral."
+* #DE32 "Cytology: LSIL (low-grade squamous intraepithelial lesion)" "Bethesda 2014 LSIL. Low-grade squamous intraepithelial lesion (corresponds to histologic CIN1). Triggers colposcopy referral in the HPV+ pathway."
+* #DE33 "Cytology: HSIL (high-grade squamous intraepithelial lesion)" "Bethesda 2014 HSIL. High-grade squamous intraepithelial lesion (corresponds to histologic CIN2 or CIN3). Triggers colposcopy referral with priority."
+
+// -----------------------------------------------------------------------------
+// Routing-outcome codes — outputs of the result-routing decision tables.
+// What the system should do next given a particular result combination.
+// -----------------------------------------------------------------------------
+* #DE34 "Route: return to routine screening" "Routing decision output: no abnormality detected; return the patient to the routine screening cycle per the binding pathway (HPV at 35/45 or cytology at the 11-age cycle)."
+* #DE35 "Route: repeat HPV test in 12 months" "Routing decision output: HPV+ with negative cytology re-read; repeat the HPV test in 12 months per A/641 Fig 2.4."
+* #DE36 "Route: refer to colposcopy" "Routing decision output: HPV+ with cytology ≥ ASC-US, OR HPV+ at 12-month recheck; refer to colposcopy per Op.Inst. 5.6."
+
+// -----------------------------------------------------------------------------
+// Additional clinical procedures (for ActivityDefinition order codes)
+// -----------------------------------------------------------------------------
+* #DE37 "Colposcopy" "A diagnostic procedure in which the cervix is examined under magnification (typically with acetic acid application) to identify lesions for biopsy. Per A/641 Op.Inst. 5.6."
