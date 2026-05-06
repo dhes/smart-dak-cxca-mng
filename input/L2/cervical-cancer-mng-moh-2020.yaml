@@ -28,22 +28,50 @@
 #   The methodology repo retains a snapshot for documentation; this file
 #   is the canonical, versioned L2 going forward.
 #
-# WHAT'S NEW IN THIS REVISION (2026-05-06)
-#   1. Form catalog corrected to Cyrillic-letter set ЭИМ-5а..5е + АМ-5
-#      (the prior "ЭИМ-5.1 / ЭИМ-5.2" labels were a misreading).
-#   2. Op.Inst. 5.1 anamnesis intake structure added as a parameter.
-#   3. §2.3 recall trigger matrix added (six timeout rules).
-#   4. Result-code mapping added (Bethesda × CIN × ICD-10) from Annex 4/5.
-#   5. Bindingness layering added at the top level — A/641 (legal) vs. the
-#      April 2025 programmatic position vs. April 2026 pilot operational
-#      drift, all surfaced explicitly.
-#   6. Timeline section added: A/641 → April 2025 launch → April 2026
-#      Khan-Uul pilot conclusion, with regulatory-status annotations.
-#   7. Khan-Uul pilot evidence section added with the cascade numbers.
-#   8. Indicators section added (cxca's IND01–08 implementations, with
-#      Annex 2 cited as the upstream framework — full extraction pending).
-#   9. Mappings-to-L3 section added — explicit anchors so L3 CQL/FSH
-#      can cite this file by path.
+# WHAT'S NEW IN THIS REVISION (v0.2.0, 2026-05-06)
+#
+# This revision was generated from a fresh single-source reading of the A/641
+# PDF — the L1 layer at input/L1/ now exists as the bilingual provenance
+# trail. v0.2.0 incorporates findings from that fresh L1 read. Major changes:
+#
+#   1. ЭИМ abbreviation expansion CORRECTED (was "Эрүүл мэндийн бүртгэлийн
+#      маягт" / health-registry form; the actual expansion per A/641 p. 7 is
+#      "Эрт илрүүлгийн маягт" / early-detection form).
+#   2. Form catalog corrected — A/641 uses BOTH naming systems concurrently:
+#      ЭИМ-5.1 and ЭИМ-5.2 are SUMMARY PATIENT RECORDS (primary care vs.
+#      secondary care); ЭИМ-5а..5е are ACCOMPANYING SLIPS (invitation,
+#      sample referrals, result, recall). v0.1.0 over-corrected to drop
+#      ЭИМ-5.1/5.2 entirely; v0.2.0 represents both.
+#   3. Cytology pathway notes updated — the source frames cytology as
+#      TRANSITIONAL ("during the preparatory period") and adds that
+#      cytology can ALSO be used at HPV-capable sites for women outside
+#      35/45 ages. Two roles, not one.
+#   4. Result-code mapping SPLIT into two entries — ICD-10 mapping
+#      (Хүснэгт 2.2, Ch. 2.3.3) and Bethesda × CIN × WHO terminology
+#      mapping (Хүснэгт X.4, Annex 4). v0.1.0 conflated these.
+#   5. Pre-screening counseling parameter ADDED (Ch. 2.2.3) — six required
+#      consent topics that were missing from v0.1.0.
+#   6. Birthday-anchored invitation timing ADDED (Ch. 2.3.5) — invitations
+#      go out 7 days BEFORE the woman's birthday in the screening year,
+#      with a 30-day attendance window after.
+#   7. Registry architecture section ADDED (Зураг 2.5) — three-tier
+#      hierarchy (primary → secondary → ХЦУТ → MOH) with form-flow paths.
+#   8. Triage sub-algorithms EXPANDED from 6 to 10 — added AGC, CIN1
+#      confirmed, CIN2 confirmed, CIN2/CIN3 or AIS treatment.
+#   9. Treatment modalities EXPANDED — added Thermal Ablation (third
+#      modality alongside LEEP and cone-shaped excision); added cone-shaped
+#      excision as distinct from LEEP.
+#  10. AIS / Adenocarcinoma in situ ADDED as a distinct category — the
+#      source treats AIS (БЭБӨ) separately from CIN with its own treatment
+#      branch.
+#  11. Indicator framework UPDATED to full 14-metric framework from
+#      Annex 2 (was "estimated >9 metrics" in v0.1.0). cxca implements
+#      5–7 of the 14.
+#
+# WHAT'S NEW IN THE PRIOR REVISION (v0.1.0, 2026-05-06)
+#   1. Initial restructuring of the 2026-04-25 Shape B draft into the L2
+#      role for the cxca DAK; established the bindingness layering, the
+#      Khan-Uul pilot evidence section, and the mappings-to-L3 section.
 #
 # REPRESENTATION NOTES
 #   * Chapters relevant to L2: Ch. 2 (screening) and Ch. 5 (pre-cancer
@@ -51,16 +79,18 @@
 #     Ch. 4 (HPV vaccination), Ch. 6 (invasive cancer), Ch. 7 (palliative)
 #     are not represented here.
 #   * "Zurag" (Зураг) = figure/diagram in the source PDF.
-#   * "ЭИМ" = Эрүүл мэндийн бүртгэлийн маягт (health-registry form).
+#   * "ЭИМ" = Эрт илрүүлгийн маягт (early-detection form).
 #   * "АМ" = cancer-notification series; АМ-5 is the cervical-cancer
 #     notification page.
 #   * Op.Inst. = "Operational Instruction" (Үйлдлийн зааварчилгаа), the
 #     procedure-level SOPs in the back of the order.
+#   * Source PDF page numbers refer to the Mongolian original (166 pages);
+#     the bilingual L1 layer at input/L1/ has the side-by-side translations.
 
 # -----------------------------------------------------------------------------
 # Versioning
 # -----------------------------------------------------------------------------
-version: 0.1.0
+version: 0.2.0
 revised: 2026-05-06
 authors:
   - Dan Heslinga (independent contributor)
@@ -186,6 +216,13 @@ axes:
   population:      [general, pregnant, post-menopausal, hiv-positive]
   primary_test:    [hpv-dna, cytology]      # VIA defined as procedure but not used as screening test
   approach:        [screen-triage-and-treat]    # screen-and-treat is NOT offered in Mongolia
+  # cytology_result enumerates the algorithm-decision-relevant Bethesda
+  # categories used by the screening pathways. Annex 5 defines a fuller
+  # Bethesda 2014 vocabulary including reactive changes, microorganisms
+  # (Trichomonas, Candida, BV, Actinomyces, HSV, CMV), and seven distinct
+  # glandular states; those are not enumerated here but are available in
+  # the L1 layer (input/L1/annex-04-05-classification.md). See
+  # `bethesda_2014_findings` axis below for the descriptive findings split.
   cytology_result: [NILM, ASC-US, ASC-H, LSIL, HSIL, AGC]
   hpv_result:      [negative, positive]
   triage_test:
@@ -193,7 +230,13 @@ axes:
     - colposcopy
     - biopsy
     - endocervical-curettage
+  # cin_grade represents the SQUAMOUS lineage of pre-cancer/cancer.
+  # AIS is GLANDULAR; treated separately. v0.2.0 makes this distinction
+  # explicit by adding a sibling axis `glandular_lesion` rather than
+  # collapsing AIS into cin_grade.
   cin_grade:       [none, CIN1, CIN2, CIN3, invasive-cancer]
+  glandular_lesion: [none, atypical-glandular, AIS, glandular-invasive-cancer]
+  treatment_modality: [thermal-ablation, leep, cone-shaped-excision, hysterectomy]
   bindingness:     [legal, programmatic, operational]   # cross-references Section 2
 
 # =============================================================================
@@ -202,7 +245,8 @@ axes:
 parameters:
 
   # Ch. 2.2 — target age group & schedule, selected by lab capacity.
-  # @source: A/641 Ch. 2.2 + Annex 2; @bindingness: legal
+  # @source: A/641 Ch. 2.2 (pp. 22-23) + Annex 2 (#1, #2); @bindingness: legal
+  # @l1: input/L1/ch02-screening.md#Section-2-2-Cervical-Cancer-Screening
   - id: screening-schedule
     bindingness: legal
     depends_on: [lab_capacity]
@@ -211,13 +255,39 @@ parameters:
         test: cytology
         ages: [30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60]
         interval: 3y
-        notes: "11 scheduled tests between ages 30 and 60 inclusive."
+        notes: |
+          11 scheduled tests between ages 30 and 60 inclusive.
+          IMPORTANT: A/641 explicitly frames cytology screening as a
+          TRANSITIONAL measure during the "preparatory period"
+          (бэлтгэлийн хугацаанд) — i.e., until HPV testing capacity is
+          built up at all units. Cytology is the fallback at sites
+          without HPV capability, not a permanent parallel regime.
       hpv-capable:
         test: hpv-dna
         ages: [35, 45]
         interval: 10y
         lifetime_tests: 2
         notes: "Only two lifetime HPV tests, at ages 35 and 45."
+    additional_role: |
+      Per the figure 2.3 caption (Ch. 2.2.4): the cytology algorithm is
+      ALSO used at HPV-capable sites for women OUTSIDE the 35/45 ages
+      (i.e., women aged 30-60 not at the binding HPV ages can
+      opportunistically receive cytology screening at HPV-capable sites).
+      The cytology arm thus has two roles: (a) transitional fallback at
+      non-HPV sites; (b) opportunistic at HPV-capable sites for women
+      outside the HPV schedule.
+    invitation_timing:
+      schedule_anchor: birthday
+      invitation_lead_time: 7d   # invitation delivered 7 days BEFORE birthday
+      attendance_window: 30d     # screened within 30 days AFTER birthday
+      source: "A/641 Ch. 2.3.5 (p. 28)"
+      notes: |
+        Each year, the population information bank selects target-age women
+        for the relevant year. The screening invitation is delivered 7 days
+        before the woman's birthday in that year, and she should be
+        screened within 30 days AFTER her birthday. This birthday-anchored
+        timing is L3-relevant for any future PlanDefinition that schedules
+        screening events on a calendar basis.
 
   # Programmatic overlay from April 2025 launch.
   # @source: who-mongolia-cervical-cancer-elimination-launch-2025-04-21.md
@@ -258,15 +328,36 @@ parameters:
           Women who had hysterectomy for non-cervical-cancer indication, provided
           post-surgical vaginal-vault cytology is negative.
 
+  # Ch. 2.2.3 — required content of pre-screening counseling.
+  # @source: A/641 Ch. 2.2.3 (pp. 22-23); @bindingness: legal
+  # @l1: input/L1/ch02-screening.md#2-2-3-Pre-screening-counseling-required-content
+  # ADDED in v0.2.0. The provider must explain six topics in plain language
+  # before the woman is screened. This is the informed-consent gate before
+  # any screening event.
+  - id: pre-screening-counseling
+    bindingness: legal
+    required_content:
+      - "What cervical cancer (УХХХ) is, and how it is detected"
+      - "About cervical cancer prevention, and about pre-cancer (ХУЭ)"
+      - "Importance of being included in screening"
+      - "Information about positive test result handling — explain it; advise on next exam; explain importance of follow-up monitoring"
+      - "What test will be performed, its risks, possible discomforts"
+      - "That declining screening will entail accepting some responsibility"
+    notes: |
+      A future L3 PlanDefinition for the screening-encounter could fire a
+      consent action that requires evidence of all six topics having been
+      covered. Currently no L3 representation exists for this.
+
   # Op.Inst. 5.1 — first-encounter anamnesis intake.
-  # @source: A/641 Op.Inst. 5.1 (pp. 105–106); see translated-mongolia-protocols-and-forms.md
+  # @source: A/641 Op.Inst. 5.1 (pp. 104-106)
+  # @l1: input/L1/opinst-05-01-anamnesis.md
   # This is the per-client intake that gates eligibility evaluation. NO pre-printed
   # form exists for the anamnesis itself — the worker captures into the ambulatory
   # card. A subset of these fields ALSO appears as the embedded mini-anamnesis on
   # forms ЭИМ-5б and ЭИМ-5в.
   - id: anamnesis-intake
     bindingness: legal
-    source: "Op.Inst. 5.1, pp. 105-106"
+    source: "Op.Inst. 5.1, pp. 104-106"
     fields:
       - { id: age,                          type: integer,    drives: eligibility }
       - { id: education,                    type: string,     drives: demographic }
@@ -275,6 +366,9 @@ parameters:
       - { id: live-birth-count,             type: integer }
       - { id: last-menstrual-period,        type: date,       drives: "sample timing — no cytology if menses heavy or pregnancy >3mo" }
       - { id: menstrual-cycle-status,       type: string }
+      # Source treats current and past contraception as a single composite
+      # item ("одоогийн болон хэрэглэж байсан жирэмслэхээс хамгаалах арга");
+      # we represent them as discrete fields here for L3-Questionnaire convenience.
       - { id: current-contraception,        type: string }
       - { id: past-contraception,           type: string }
       - { id: age-at-first-sexual-contact,  type: integer,    drives: risk-factor }
@@ -287,11 +381,21 @@ parameters:
       - { id: past-disease-history,         type: string }
       - { id: smoking,                      type: code,       values: [current, past, never], drives: risk-factor }
       - { id: alcohol-use,                  type: code,       drives: risk-factor }
+      # Source phrasing is open-ended ("УХХХ ба бусад өвчний шинж тэмдэг" =
+      # "signs/symptoms of cervical cancer and other diseases"); examples
+      # listed here are L2 implementation guidance, not source-enumerated.
       - { id: current-symptoms,             type: structured, examples: [bleeding, discharge, post-coital-bleeding] }
     exam_parts:
       - { order: 1, name: "External genitalia inspection" }
       - { order: 2, name: "Speculum (mirror) inspection" }
       - { order: 3, name: "Bimanual exam" }
+    post_exam_workflow:
+      # Steps 17-22 of the Op.Inst. 5.1 protocol (L1 §3.6).
+      - { id: document-in-card,        action: "Document exam findings in the ambulatory card" }
+      - { id: communicate-to-woman,    action: "Tell the woman about exam findings; explain any abnormalities" }
+      - { id: sti-partner-treatment,   action: "If signs of STI (BЗДХ) appear, examine the partner together and treat as a couple" }
+      - { id: urgent-referral,         action: "If urgent diagnosis is needed, refer to next-tier facility" }
+      - { id: schedule-followup,       action: "Schedule when the woman will return for monitoring" }
 
   # Ch. 5.1 — HPV DNA test characteristics
   - id: hpv-dna-test
@@ -328,13 +432,59 @@ parameters:
     procedure_ref: "5.4"
 
   # Ch. 5.2 — diagnostic tests (triage)
+  # @l1: input/L1/ch05-precancer-dx-tx.md#Section-5-2
   - id: diagnostic-tests
     bindingness: legal
     items:
       - { name: colposcopy,             magnification: "5-15x",                  procedure_ref: "5.6" }
       - { name: tissue-biopsy,          under: colposcopy-guidance,              output: CIN-grade, procedure_ref: "5.7" }
       - { name: endocervical-curettage, indications: [tz-not-fully-visible],     procedure_ref: "5.8" }
-      - { name: leep,                   indications: [CIN2, CIN3],               procedure_ref: "5.9" }
+
+  # Ch. 5.4 — treatment modalities (RESTRUCTURED in v0.2.0).
+  # v0.1.0 mistakenly listed LEEP under "diagnostic-tests" — LEEP is a
+  # treatment, not a diagnostic test. v0.2.0 separates them and adds the
+  # two missing modalities: Thermal Ablation and Cone-Shaped Excision.
+  # @l1: input/L1/ch05-precancer-dx-tx.md#Section-5-4
+  - id: treatment-modalities
+    bindingness: legal
+    items:
+      - id: thermal-ablation
+        mongolian: "Дулаанаар түлэх эмчилгээ"
+        description: "Heat the transformation zone to ~100°C with a metal probe; 5 repeated applications of 20-40 seconds."
+        indications: [CIN2, CIN3]
+        contraindications:
+          - "Invasive cancer"
+          - "Glandular cell dysplasia"
+          - "Pelvic inflammation"
+          - "Vaginal trichomoniasis, candidal vaginosis, hairy fungus, genital sores, bleeding"
+          - "<3 months postpartum"
+          - "Hypertensive (until BP treated)"
+        applicable_at: "Any tier of trained provider, ambulatory."
+        post_procedure: "Healthy tissue regenerates in ~1 month; abstain from sex during this period; condoms if necessary."
+        notes: "WHO-recommended approach. ADDED in v0.2.0; was missing from v0.1.0."
+
+      - id: leep
+        mongolian: "Цахилгаан гогцоогоор өөлөх эмчилгээ"
+        description: "Loop electrosurgical excision under local anaesthesia; cuts away abnormal tissue and seals bleeding simultaneously."
+        indications: [CIN1, CIN2, CIN3]
+        contraindications:
+          - "Invasive cancer"
+          - "Glandular cell dysplasia"
+          - "Pelvic inflammation, vaginal infections, sores, bleeding"
+          - "<3 months postpartum"
+          - "Hypertensive (until BP treated)"
+        applicable_at: "Health facility with anaesthesia capability; trained ob-gyn."
+        post_procedure: "Bleeding from vagina for first 7-10 days; lighter yellow discharge for ~1 month; abstain from sex."
+        procedure_ref: "5.9"
+
+      - id: cone-shaped-excision
+        mongolian: "Хутгаар шаантаг хэлбэртэй тайрах мэс засал"
+        description: "Excises the inner and outer portions of the cervix in a cone shape (cold-knife conization)."
+        indications: ["When LEEP is not feasible", "AIS / БЭБӨ"]
+        applicable_at: "Specialist; surgical theater."
+        post_procedure: "Yellow discharge for 7-14 days; tissue regenerates in 4-6 weeks; abstain from sex."
+        procedure_ref: "5.10"
+        notes: "ADDED in v0.2.0; was missing from v0.1.0."
 
 # =============================================================================
 # Section 6 — Algorithms
@@ -465,6 +615,110 @@ triage_sub_algorithms:
       If colposcopy not assessable -> biopsy alternative procedure.
         CIN (any grade) confirmed  -> follow CIN protocol.
 
+  # ADDED in v0.2.0 — Зураг 5.7. AGC has its own algorithm, distinct from
+  # the squamous-lineage sub-algorithms above. Currently no L3 representation.
+  - id: trs-agc
+    bindingness: legal
+    when: { cytology_result: AGC, population: all }
+    schema_ref: zurag-5.7
+    rule: |
+      Under colposcopic guidance, take cervical tissue biopsy.
+      ALSO: in women aged 35+ with abnormal uterine bleeding, take endometrial biopsy.
+      If endometrial atypical cells found -> endometrial biopsy.
+      If cancer NOT diagnosed -> repeat cytology
+        CIN or AIS found     -> follow CIN or glandular-cancer protocol
+        Normal               -> cytology every 4-6 months × 4
+          ASCUS or LSIL on follow-up -> repeat colposcopy
+          HSIL or AGC on follow-up   -> repeat colposcopy
+      If cancer is present -> refer to ХЦУТ (National Cancer Center).
+
+  # ADDED in v0.2.0 — Зураг 5.8. Post-diagnosis follow-up after CIN1
+  # confirmation. Current L2 stops at the triage level; this captures
+  # the post-diagnosis monitoring tree.
+  - id: trs-cin1-confirmed-followup
+    bindingness: legal
+    when: { cin_grade: CIN1, "diagnosis_status": "confirmed-by-adequate-colposcopy-and-biopsy" }
+    schema_ref: zurag-5.8
+    rule: |
+      CIN1 confirmed by adequate colposcopy + biopsy. Two paths:
+
+      (a) Without immediate treatment:
+        - Cytology at 6 months and 12 months
+        - Colposcopy + cytology 12 months later
+        - Returned to normal -> annual cytology surveillance
+        - From follow-up cytology:
+          - Negative   -> annual cytology
+          - >= ASCUS   -> repeat colposcopy
+          - CIN found  -> repeat colposcopy
+            CIN not found on repeat -> annual cytology
+            Stable CIN1 / progressed to CIN2 -> follow CIN/cancer protocol
+
+      (b) With treatment: per shared decision (LEEP or thermal ablation).
+
+  # ADDED in v0.2.0 — Зураг 5.9. CIN2 confirmation tree.
+  - id: trs-cin2-confirmed-followup
+    bindingness: legal
+    when: { cin_grade: CIN2, "diagnosis_status": "confirmed-by-colposcopy-and-biopsy" }
+    schema_ref: zurag-5.9
+    rule: |
+      CIN2 confirmed by adequate colposcopy + biopsy.
+
+      If colposcopy assessable: Excision involving the transformation zone
+        (with possible methods: LEEP, thermal ablation, cone-shaped excision).
+
+      If colposcopy not assessable: Excision for diagnosis-confirmation
+        purpose, including the transformation zone (with possible method).
+
+      Then post-treatment monitoring:
+        Repeat cytology 4-6 months later, OR colposcopy + cytology 4-6 months later
+          3 negative results in succession -> annual cytology surveillance
+          >= ASCUS (confirmed by repeat cytology) -> colposcopy
+
+      If CIN3 diagnosed -> refer to ХЦУТ (National Cancer Center).
+
+  # ADDED in v0.2.0 — Зураг 5.10. CIN2/CIN3 OR AIS treatment branching.
+  - id: trs-cin2-cin3-or-ais-treatment
+    bindingness: legal
+    when_any:
+      - { cin_grade: CIN2 }
+      - { cin_grade: CIN3 }
+      - { glandular_lesion: AIS }
+    schema_ref: zurag-5.10
+    rule: |
+      Two parallel treatment tracks based on histology:
+
+      For CIN 2 or CIN 3:
+        - LEEP, OR
+        - Cone-shaped excision (хутгаар шаантаг хэлбэртэй тайрах), OR
+        - Hysterectomy (abdominal or vaginal approach).
+
+      For AIS / Adenocarcinoma in situ (БЭБӨ):
+        - For women wishing to preserve fertility: cone-shaped excision
+        - For women not wishing fertility preservation: hysterectomy
+          (abdominal or vaginal approach)
+        - If repeat cytology returns abnormal post-cone, perform colposcopy
+          + tissue biopsy and confirm diagnosis
+
+  # ADDED in v0.2.0 — post-treatment monitoring schedule (§5.4.6).
+  - id: post-treatment-monitoring
+    bindingness: legal
+    schema_ref: "Ch. 5.4 (pp. 59-60)"
+    rule: |
+      Mandatory follow-up exam 2-6 weeks after treatment ends:
+        - Speculum exam to check normal healing.
+        - Discuss histopathology results with patient.
+        - Schedule repeat exam, explain importance of active monitoring.
+
+      If lesion fully removed: 6-12 months later for repeat exam; if margins
+      positive, more frequent monitoring.
+
+      6-12 months later: colposcopy; if pathology found, mandatory tissue biopsy.
+
+      If first two follow-up exams negative: follow ASCUS/LSIL algorithm.
+
+      HSIL-treated patients: monitored ANNUALLY for 5 YEARS, then resume
+      regular screening cycle.
+
 # =============================================================================
 # Section 8 — Special conditions (Ch. 5.2)
 # =============================================================================
@@ -544,21 +798,58 @@ recall_triggers:
     action: "Immediate flag for outreach"
 
 # =============================================================================
-# Section 10 — Result code mapping (Annex 4 Table X.4 + Annex 5)
+# Section 10 — Result code mapping (TWO separate mappings)
 # =============================================================================
-# Cytology (Bethesda 2014) × histology (CIN) × ICD-10 mapping. Used by both
-# data-entry forms (where the worker selects one) and indicators (where the
-# numerator/denominator is computed by code). Source: A/641 Annex 4 Table X.4
-# combined with Annex 5 Bethesda classification.
-result_code_mapping:
-  - { cytology: NILM,        bethesda_class: I,   histology: normal,   icd10: ["Z01.4", "Z12.4"] }
-  - { cytology: ASC-US,      bethesda_class: II,  histology: normal,   icd10: ["N87.0", "N87.1", "N87.2", "N87.9"] }
-  - { cytology: ASC-H,       bethesda_class: II,  histology: normal,   icd10: ["N87.0", "N87.1", "N87.2", "N87.9"] }
-  - { cytology: LSIL,        bethesda_class: III, histology: CIN1,     icd10: ["N87.0"] }
-  - { cytology: HSIL,        bethesda_class: III, histology: CIN2,     icd10: ["N87.1"] }
-  - { cytology: HSIL,        bethesda_class: III, histology: CIN3,     icd10: ["N87.2"] }
-  - { cytology: HSIL,        bethesda_class: IV,  histology: CIS,      icd10: ["D06"] }
-  - { cytology: invasive,    bethesda_class: V,   histology: invasive, icd10: ["C53.0", "C53.1", "C53.8", "C53.9"] }
+# CORRECTION FROM v0.1.0
+#   v0.1.0 had a single `result_code_mapping` section attributed to "Annex 4
+#   Table X.4" that conflated TWO distinct mappings from the source.
+#   v0.2.0 splits them properly:
+#
+#   (a) result_code_mapping_icd10 — from Хүснэгт 2.2 (Ch. 2.3.3, p. 27).
+#       Maps the SCREENING/DIAGNOSTIC ENCOUNTER to ICD-10 codes
+#       (Z-codes for screening visits without diagnosis vs. N/D/C codes
+#       when a condition is diagnosed). This is the encounter-level
+#       coding used by the registry.
+#
+#   (b) result_code_mapping_pap_bethesda_cin_who — from Хүснэгт X.4
+#       (Annex 4, p. 156). Maps PAP class × Bethesda × CIN × WHO
+#       descriptive terminology. This is the LAB-RESULT INTERPRETATION
+#       hierarchy used by cytologists and histopathologists.
+
+# (a) Encounter-level ICD-10 coding from Хүснэгт 2.2
+# @l1: input/L1/ch02-screening.md#2-3-3-Result-coding-mapping
+result_code_mapping_icd10:
+  - encounter_state: screening_visit_no_diagnosis_yet
+    icd10_codes:
+      - { code: "Z01.4", label: "General/routine women's exam (incl. cervical Pap)" }
+      - { code: "Z12.4", label: "Special exam to detect cervical cancer" }
+  - encounter_state: diagnosed_condition
+    icd10_codes:
+      - { code: "N86",         label: "Cervical erosion and ectropion" }
+      - { code: "N87.0-N87.9", label: "Cervical dysplasia (CIN1/CIN2/CIN3 spectrum)" }
+      - { code: "N88.0-N88.9", label: "Other non-inflammatory disorders of cervix" }
+      - { code: "D06",         label: "Carcinoma in situ of cervix" }
+      - { code: "C53.0-C53.9", label: "Malignant neoplasm of cervix" }
+
+# (b) Lab-result classification cross-tab from Хүснэгт X.4
+# @l1: input/L1/annex-04-05-classification.md#4-2
+# Note: third column is WHO TERMINOLOGY (descriptive English-medical), not ICD-10.
+result_code_mapping_pap_bethesda_cin_who:
+  - { pap_class: "I",   bethesda: NILM,        cin: normal,                          who_descriptive: "Normal" }
+  - { pap_class: "II",  bethesda: ASC-US,      cin: normal,                          who_descriptive: "Normal" }
+  - { pap_class: "II",  bethesda: ASC-H,       cin: normal,                          who_descriptive: "Normal" }
+  - { pap_class: "III", bethesda: LSIL,        cin: "CIN1 with flat condyloma",      who_descriptive: "Koilocytosis" }
+  - { pap_class: "III", bethesda: HSIL,        cin: CIN2,                            who_descriptive: "Moderate dysplasia" }
+  - { pap_class: "III", bethesda: HSIL,        cin: CIN3,                            who_descriptive: "Severe dysplasia" }
+  - { pap_class: "IV",  bethesda: HSIL,        cin: CIN3,                            who_descriptive: "Carcinoma in situ (CIS, Байран өмөн)" }
+  - { pap_class: "V",   bethesda: invasive,    cin: invasive,                        who_descriptive: "Invasive cancer (Цөмөрсөн өмөн)" }
+
+# Aliases for backwards-compatibility with v0.1.0 references — DEPRECATED.
+# Use result_code_mapping_icd10 or result_code_mapping_pap_bethesda_cin_who.
+# Will be removed in a future revision.
+result_code_mapping: &result_code_mapping_deprecated
+  deprecated: true
+  see_instead: [result_code_mapping_icd10, result_code_mapping_pap_bethesda_cin_who]
 
 # =============================================================================
 # Section 11 — Procedures (Ch. 5)
@@ -573,127 +864,259 @@ procedures:
   - { id: "5.7", name_en: "Histology (tissue biopsy)",                         name_mn: "Эдийн шинжилгээ" }
   - { id: "5.8", name_en: "Endocervical curettage and biopsy",                 name_mn: "Умайн хүзүүний сувгаас хусаж авах шинжилгээ" }
   - { id: "5.9", name_en: "LEEP — Loop Electrical Excision Procedure",         name_mn: "Умайн хүзүүг цахилгаан гогцоогоор өөлөх эмчилгээ: LEEP" }
+  - { id: "5.10", name_en: "Cone-shaped cervical excision (cold knife)",       name_mn: "Умайн хүзүүг хутгаар шаантаг хэлбэрээр тайрах" }
 
 # =============================================================================
-# Section 12 — Registry forms (corrected Cyrillic-letter catalog)
+# Section 12 — Registry forms (BOTH naming systems represented)
 # =============================================================================
-# CORRECTION FROM PRIOR DRAFT
-#   The 2026-04-25 Shape B draft labelled these as "ЭИМ-5.1" and "ЭИМ-5.2".
-#   That was a misreading. The actual A/641 form catalog (Table 2.1, p. 27)
-#   uses Cyrillic-letter suffixes а..е. The full correct set is below.
+# CORRECTION FROM v0.1.0
+#   v0.1.0 represented only the Cyrillic-letter set (ЭИМ-5а..5е) on the
+#   theory that "ЭИМ-5.1 / ЭИМ-5.2" labels were a misreading. v0.2.0
+#   confirms (from the L1 read) that the source uses BOTH naming systems
+#   concurrently and they refer to DIFFERENT artifact types:
 #
-# The forms are the recall-system substrate: ЭИМ-5а enrolls the client,
-# ЭИМ-5б/5в/5г accompany samples to lab, ЭИМ-5д returns results to the
-# client, ЭИМ-5е drives recall reminders, and АМ-5 escalates invasive
-# cancer findings.
+#   - ЭИМ-5.1 and ЭИМ-5.2 are SUMMARY PATIENT RECORDS (sometimes called
+#     "screening pages") at primary care vs. secondary care tiers
+#     respectively. They appear as form codes in figures 2.3, 2.4, 2.5
+#     (Зураг). NO standalone form template appears in Annex 1 — these
+#     may be ambulatory-card sections rather than separate forms.
+#
+#   - ЭИМ-5а through ЭИМ-5е are ACCOMPANYING SLIPS (invitation, sample
+#     referral, result, recall) listed in Хүснэгт 2.1 (p. 27) and with
+#     templates in Annex 1 (pp. 147-152).
+#
+#   - АМ-5 is the cervical-cancer notification page.
+#
+# @l1: input/L1/annex-01-forms.md and input/L1/ch02-screening.md#2-3-2
 forms:
+  # --- Summary patient records ---
+  - id: ЭИМ-5.1
+    type: summary-patient-record
+    purpose: "Cervical cancer screening summary record at PRIMARY CARE tier."
+    location: "Referenced in Зураг 2.3 (cytology arm) and Зураг 2.4 (HPV arm primary-care steps); Зураг 2.5 (info flow)."
+    used_at:
+      - "Family/sum/village health centers (Өрх, сум тосгоны ЭМТ)"
+      - "Intersum hospitals, rural integrated hospitals"
+      - "Licensed private clinics"
+    template_in_annex_1: false
+    notes: |
+      No standalone form template in Annex 1; may be a section of the
+      ambulatory card. ADDED in v0.2.0; was missing from v0.1.0.
+
+  - id: ЭИМ-5.2
+    type: summary-patient-record
+    purpose: "Cervical cancer screening summary record at SECONDARY CARE tier."
+    location: "Referenced in Зураг 2.4 (HPV arm secondary-care steps); Зураг 2.5 (info flow)."
+    used_at:
+      - "Aimag/district integrated hospitals (НЭ)"
+      - "Specialty hospitals (ЭМН), specialized centers"
+      - "Licensed private hospitals"
+    template_in_annex_1: false
+    notes: |
+      No standalone form template in Annex 1. ADDED in v0.2.0; was missing
+      from v0.1.0.
+
+  # --- Accompanying slips ---
   - id: ЭИМ-5а
+    type: accompanying-slip
     purpose: "Invitation to screening / enrollment into recall system."
     location: "Annex 1, p. 147"
+    issued_at_tier: primary
     fields_summary:
       - "Овог (last name), Нэр (first name)"
       - "Phone, address, email"
       - "Birth month, birth year"
       - "Screening type: ☐ cytology-based ☐ HPV-based"
       - "Scheduled date/time"
+      - "(Note: invitation must be delivered within 7 days BEFORE birthday)"
     used_in: [alg-cytology-arm, alg-hpv-arm]
 
   - id: ЭИМ-5б
+    type: accompanying-slip
     purpose: "HPV sample referral (accompanies sample to lab)."
     location: "Annex 1, p. 148"
+    issued_at_tier: primary
     embedded_anamnesis: true
+    embedded_anamnesis_fields:
+      # Confirmed from L1 read against Annex 1 p. 148.
+      - { field: symptoms,             type: checkbox-group, options: [none, vaginal-discharge, bleeding, heavy-menstrual-bleeding, post-menopausal-bleeding, other] }
+      - { field: contraception,        type: checkbox-group, options: [none, hormonal-pill, IUD-implant, IUD-wire, condom, other] }
+      - { field: smoking,              type: checkbox-group, options: [yes, no, previously-smoked, no-answer] }
+      - { field: previously-screened,  type: yes-no }
+      - { field: hpv-vaccinated,       type: checkbox-group, options: [yes, no, dont-know] }
+      - { field: prior-cytology-cadence, type: checkbox-group, options: [regular-3y, irregular, never, dont-know, no-answer] }
+      - { field: prior-abnormality-action, type: checkbox-group, options: [treated-recovered, currently-monitored, declined-treatment, dont-know, no-answer] }
+      - { field: prior-abnormality-detected, type: checkbox-group, options: [yes, no, dont-know, no-answer] }
+      - { field: tampon-use,           type: checkbox-group, options: [yes, no, previously-used, no-answer] }
+      - { field: speculum-finding,     type: checkbox-group, options: [normal, with-sores, bleeding-on-touch, cancer-suspicious] }
+      - { field: colposcopy-finding,   type: checkbox-group, options: [not-performed, normal, other, metaplasia, hpv-visual, cervical-cancer, lsil-visual, hsil-visual, cannot-conclude] }
     fields_summary:
       - "Identifiers: Регистр (national ID), name, age, address, phones, email"
       - "Sample date, lab dispatch date, last menstrual period date"
-      - "Зовуурь (symptoms), ЖСА хэрэглээ (contraception), smoker, prior screen, HPV vaccinated, prior cadence, prior abnormality, treatment received, tampon use"
-      - "Speculum finding, colposcopy finding"
+      - "(see embedded_anamnesis_fields for the structured mini-anamnesis)"
     used_in: [alg-hpv-arm]
 
   - id: ЭИМ-5в
+    type: accompanying-slip
     purpose: "Cytology sample referral (accompanies slide to lab)."
     location: "Annex 1, p. 149"
+    issued_at_tier: primary
     embedded_anamnesis: true
-    fields_summary: "Same shape as ЭИМ-5б; differs only in sample type marker."
+    embedded_anamnesis_fields: "Same as ЭИМ-5б."
+    additional_fields:
+      - { field: slide-number, type: code, options: [new, monitoring-repeat] }
     used_in: [alg-cytology-arm, alg-hpv-arm]   # Both arms can produce cytology
 
   - id: ЭИМ-5г
+    type: accompanying-slip
     purpose: "Tissue (biopsy / LEEP / cone) sample referral."
     location: "Annex 1, p. 150"
+    issued_at_tier: secondary    # CORRECTED in v0.2.0 — only issued at secondary care
     fields_summary:
+      - "Sample type: ☐ obtained via biopsy / ☐ via LEEP / ☐ via cone-shaped excision"
       - "Pregnancy status, gravida/para/abortion/miscarriage counts"
+      - "Contraception, visual cervix findings"
       - "Prior cervical biopsy, TORCH status, preliminary clinical dx"
-    used_in: [alg-hpv-arm]
+    used_in: [trs-cin1-confirmed-followup, trs-cin2-confirmed-followup, trs-cin2-cin3-or-ais-treatment]
 
   - id: ЭИМ-5д
+    type: accompanying-slip
     purpose: "Result/conclusion sheet given back to the client."
     location: "Annex 1, p. 151"
-    fields_summary: "Free-text result, diagnosis, follow-up plan."
+    issued_at_tier: primary
+    fields_summary: "Free-text result, diagnosis, follow-up plan. ⚠️ Result codes are FREE TEXT in this form, not constrained to a coded vocabulary."
     used_in: [alg-cytology-arm, alg-hpv-arm]
 
   - id: ЭИМ-5е
+    type: accompanying-slip
     purpose: "Recall reminder for repeat screening / follow-up."
     location: "Annex 1, p. 152"
+    issued_at_tier: both         # CORRECTED in v0.2.0 — issued at both tiers
     fields_summary:
-      - "Reason: ☐ prior sample inconclusive / ☐ post-treatment outcome / ☐ scheduled follow-up"
-      - "Whether the client showed up; if not, what action was taken"
+      - "Reason: ☐ prior sample inadequate / ☐ post-treatment outcome / ☐ monitoring repeat"
+      - "Scheduled recall date"
+      - "Date repeat exam was performed (or action taken if patient did not respond)"
     used_in: [recall_triggers.positive-result-no-followup, recall_triggers.second-reminder]
 
   - id: АМ-5
+    type: cancer-notification
     purpose: "Cervical-cancer notification page (when invasive cancer detected)."
     location: "Cancer-notification series"
+    issued_at_tier: secondary
     used_in: [alg-hpv-arm]   # invoked when biopsy returns invasive
 
 access_controls: "Op.Inst. 2.2 — restrictions on electronic-registry access by health organization."
 
 # =============================================================================
-# Section 13 — Indicators (Annex 2)
+# Section 12.5 — Registry architecture (Зураг 2.5, p. 26)
 # =============================================================================
-# A/641 Annex 2 establishes the indicator framework. The list below covers
-# the indicators that have been operationalised in the cxca DAK as L3
-# Measure resources (input/fsh/measures/CXCAIND*.fsh). The full Annex 2
-# framework references at least 9 distinct metrics (cited in source extracts);
-# extracting the complete catalog is an open follow-up — see `open_followups`.
+# ADDED in v0.2.0. The screening registry has a three-tier hierarchy with
+# distinct form-flow paths from each tier. Was missing from v0.1.0.
+# @l1: input/L1/ch02-screening.md#2-3-1
+registry_architecture:
+  tiers:
+    - id: primary-care
+      tier_label: "Primary care"
+      facilities:
+        - "Family health centers (Өрхийн ЭМТ)"
+        - "Sum/village health centers (Сум, тосгоны ЭМТ)"
+        - "Intersum hospitals (Сум дундын эмнэлэг)"
+        - "Rural integrated hospitals (Хөдөөгийн нэгдсэн эмнэлэг)"
+      reports_using: [ЭИМ-5.1, ЭИМ-5а, ЭИМ-5б, ЭИМ-5в, ЭИМ-5д, ЭИМ-5е]
+      reports_to: secondary-care
+    - id: secondary-care
+      tier_label: "Secondary care"
+      facilities:
+        - "Aimag integrated hospital / Regional dx-tx center (Аймгийн НЭ, БОЭТ; cancer registrar)"
+        - "District health center (Дүүргийн ЭМТ; cancer registrar)"
+        - "Specialty centers, specialized hospitals"
+        - "Licensed private hospitals/clinics"
+      reports_using: [ЭИМ-5.2, ЭИМ-5г, ЭИМ-5е, АМ-5]
+      reports_to: national-cancer-center
+    - id: national-cancer-center
+      tier_label: "National Cancer Center (ХЦУТ)"
+      systems:
+        - "Cancer screening data bank (Хорт хавдрын илрүүлгийн мэдээний сан)"
+        - "Cancer screening electronic registry & recall system (www.cancer-screening.gov.mn)"
+      reports_to: [aimag-health-departments, capital-health-department, health-development-center, ministry-of-health]
+  electronic_registry_url: "www.cancer-screening.gov.mn"
+  notes: |
+    The registry has both a "data bank" side (incoming reports, screening
+    data) and a "recall system" side (outgoing reminders, callback
+    triggers). Access controls are governed by Op.Inst. 2.2.
+
+# =============================================================================
+# Section 13 — Indicators (Annex 2 — full 14-metric framework)
+# =============================================================================
+# UPDATED in v0.2.0. Annex 2 has been confirmed by direct read to define
+# EXACTLY 14 metrics (numbered 1-14, with one metric double-numbered as #11).
+# v0.1.0 said "estimated >9"; the correct count is 14.
+#
+# cxca's L3 currently implements 5-7 of the 14. The remaining metrics are
+# operational measures (invitation rates, response times, age-specific case
+# counts) that are outside cxca's current scope but realistic Phase 8+ work.
+# @l1: input/L1/annex-02-indicators.md
 indicators:
-  - id: CXCAIND01
-    bindingness: legal
-    title: "Cervical Cancer Screening Coverage at Age 35"
-    source_anchor: "A/641 Annex 2 #6 (coverage %), HPV-pathway first binding age."
-    l3_artifact: input/fsh/measures/CXCAIND01.fsh
-  - id: CXCAIND02
-    bindingness: legal
-    title: "Cytology-pathway coverage"
-    source_anchor: "A/641 Annex 2 — coverage at cytology-pathway target ages."
-    l3_artifact: input/fsh/measures/CXCAIND02.fsh
-  - id: CXCAIND03
-    bindingness: legal
-    title: "HPV positivity rate"
-    source_anchor: "A/641 Annex 2 — positivity metric on the HPV arm."
-    l3_artifact: input/fsh/measures/CXCAIND03.fsh
-  - id: CXCAIND04
-    bindingness: legal
-    title: "Cervical Cancer Screening Coverage at Age 45"
-    source_anchor: "A/641 Annex 2 #6 (coverage %), HPV-pathway second binding age."
-    l3_artifact: input/fsh/measures/CXCAIND04.fsh
-  - id: CXCAIND06
-    bindingness: legal
-    title: "Cascade completion (HPV+ to follow-up cytology)"
-    source_anchor: "Derived from §2.3 recall triggers + Annex 2 cascade metrics."
-    l3_artifact: input/fsh/measures/CXCAIND06.fsh
-    methodology_notes: |
-      One of the four methodology contributions of this DAK: numerator includes
-      both "cytology performed" AND "explicit non-occurrence" (via the
-      CXCAServiceNotRequested profile). Patients absent from records are
-      neither numerator nor denominator, surfacing rather than hiding LTFU.
-  - id: CXCAIND07
-    bindingness: legal
-    title: "Detection rate / Илрүүлгийн түвшин"
-    source_anchor: "A/641 Annex 2 #9."
-    l3_artifact: input/fsh/measures/CXCAIND07.fsh
-  - id: CXCAIND08
-    bindingness: legal
-    title: "Treatment completion among biopsy-positive women"
-    source_anchor: "Derived from §2.3 positive-biopsy-no-treatment trigger."
-    l3_artifact: input/fsh/measures/CXCAIND08.fsh
+  # Annex 2 framework — full 14-metric list, with implementation status per metric
+  framework_metrics:
+    - { num: 1,   indicator: "Target population (Зорилтот хүн ам)",                                              implementation_status: "implicit (used as denominator across coverage measures)" }
+    - { num: 2,   indicator: "Screening frequency (Илрүүлгийн давтамж)",                                        implementation_status: "implicit (encoded in PlanDefinition recall scheduling)" }
+    - { num: 3,   indicator: "Invitation status (Илрүүлэг үзлэгт урьсан байдал)",                              implementation_status: "not yet implemented" }
+    - { num: 4,   indicator: "% of invited who attended (Уригдсанаас хамрагдсан хувь)",                         implementation_status: "not yet implemented" }
+    - { num: 5,   indicator: "Time from invitation to attendance",                                              implementation_status: "not yet implemented" }
+    - { num: 6,   indicator: "Invitation rate (Урьсан хувь)",                                                   implementation_status: "not yet implemented" }
+    - { num: 7,   indicator: "Screening coverage rate (Илрүүлгийн хамралтын хувь)",                            implementation_status: "implemented as CXCAIND01, CXCAIND02, CXCAIND04" }
+    - { num: 8,   indicator: "Target-age population coverage / lifetime",                                       implementation_status: "not yet implemented" }
+    - { num: 9,   indicator: "Screening detection level / first-time (Илрүүлгийн түвшин)",                     implementation_status: "implemented as CXCAIND07" }
+    - { num: 10,  indicator: "Positive results count (Эерэг хариу)",                                           implementation_status: "not yet implemented as count" }
+    - { num: "11a", indicator: "% with positive result (Эерэг хариу гарсан хувь)",                              implementation_status: "implemented as CXCAIND03" }
+    - { num: "11b", indicator: "Negative results count (Сөрөг хариу) — note: source double-numbers this as #11", implementation_status: "not yet implemented as count" }
+    - { num: 12,  indicator: "% receiving treatment (Эмчилгээнд хамрагдсан хувь)",                             implementation_status: "implemented as CXCAIND06, CXCAIND08" }
+    - { num: 13,  indicator: "Age-specific new cervical cancer cases",                                          implementation_status: "not yet implemented" }
+    - { num: 14,  indicator: "Algorithm-driven treatment of cancer-suspected cases",                            implementation_status: "not yet implemented (this would specifically measure protocol adherence in the triage cascade)" }
+
+  # cxca L3 implementations — detail per implemented Measure
+  implemented_measures:
+    - id: CXCAIND01
+      bindingness: legal
+      title: "Cervical Cancer Screening Coverage at Age 35"
+      source_anchor: "A/641 Annex 2 #7 (coverage %), HPV-pathway first binding age."
+      l3_artifact: input/fsh/measures/CXCAIND01.fsh
+    - id: CXCAIND02
+      bindingness: legal
+      title: "Cytology-pathway coverage"
+      source_anchor: "A/641 Annex 2 #7 — coverage at cytology-pathway target ages."
+      l3_artifact: input/fsh/measures/CXCAIND02.fsh
+    - id: CXCAIND03
+      bindingness: legal
+      title: "HPV positivity rate"
+      source_anchor: "A/641 Annex 2 #11a — positivity metric on the HPV arm."
+      l3_artifact: input/fsh/measures/CXCAIND03.fsh
+    - id: CXCAIND04
+      bindingness: legal
+      title: "Cervical Cancer Screening Coverage at Age 45"
+      source_anchor: "A/641 Annex 2 #7 (coverage %), HPV-pathway second binding age."
+      l3_artifact: input/fsh/measures/CXCAIND04.fsh
+    - id: CXCAIND06
+      bindingness: legal
+      title: "Cascade completion (HPV+ to follow-up cytology)"
+      source_anchor: "A/641 Annex 2 #12 — derived from §2.3 recall triggers + Annex 2 cascade metrics."
+      l3_artifact: input/fsh/measures/CXCAIND06.fsh
+      methodology_notes: |
+        One of the four methodology contributions of this DAK: numerator includes
+        both "cytology performed" AND "explicit non-occurrence" (via the
+        CXCAServiceNotRequested profile). Patients absent from records are
+        neither numerator nor denominator, surfacing rather than hiding LTFU.
+    - id: CXCAIND07
+      bindingness: legal
+      title: "Detection rate / Илрүүлгийн түвшин"
+      source_anchor: "A/641 Annex 2 #9."
+      l3_artifact: input/fsh/measures/CXCAIND07.fsh
+    - id: CXCAIND08
+      bindingness: legal
+      title: "Treatment completion among biopsy-positive women"
+      source_anchor: "A/641 Annex 2 #12 — derived from §2.3 positive-biopsy-no-treatment trigger."
+      l3_artifact: input/fsh/measures/CXCAIND08.fsh
 
 # =============================================================================
 # Section 14 — Pilot evidence (Khan-Uul HPV-DNA pilot, 2025-2026)
@@ -802,25 +1225,28 @@ notes:
 # Section 17 — Open follow-ups
 # =============================================================================
 open_followups:
+  # ✅ RESOLVED in v0.2.0:
+  #   - "Build a translation-provenance trail for SME critique" — DONE.
+  #     The L1 layer at input/L1/ now provides the bilingual side-by-side
+  #     reference, generated from a fresh single-source PDF read.
+  #   - "Extract the full Annex 2 indicator framework" — DONE. Confirmed
+  #     14 metrics; framework now in `indicators.framework_metrics`.
+  #
+  # Remaining open follow-ups (carried forward from v0.1.0 plus new ones):
   - "Locate and represent the National Acceleration Plan for Cervical Cancer Elimination (Dr L. Tumurbaatar, presented April 2026) — likely the document that operationalises the 30/40 ages."
-  - "Extract the full Annex 2 indicator framework (the L3 currently implements 7 of an estimated >9 metrics)."
+  - "Author an L3 Questionnaire derived from anamnesis-intake (Op.Inst. 5.1) — currently deferred. The L1 detail in input/L1/opinst-05-01-anamnesis.md provides the structural specification."
+  - "Author an L3 Questionnaire derived from form ЭИМ-5б / ЭИМ-5в embedded mini-anamnesis — distinct from the Op.Inst. 5.1 full anamnesis and used at sample-collection time."
+  - "Author L3 PlanDefinition for the 4 newly-added triage sub-algorithms (trs-agc, trs-cin1-confirmed-followup, trs-cin2-confirmed-followup, trs-cin2-cin3-or-ais-treatment) — currently L3 has only the 6 v0.1.0 sub-algorithms."
+  - "Author L3 ActivityDefinition for Thermal Ablation (treatment-modalities[id=thermal-ablation]) — currently L3 has only LEEP."
+  - "Author L3 ActivityDefinition for Cone-Shaped Excision (treatment-modalities[id=cone-shaped-excision]) — currently L3 has only LEEP."
+  - "Author L3 PlanDefinition for post-treatment monitoring schedule (triage_sub_algorithms[id=post-treatment-monitoring]) — 6/12-month/annual cadence with 5-year HSIL extension."
+  - "Author L3 Questionnaire for pre-screening counseling consent (parameters[id=pre-screening-counseling]) — six required topics."
+  - "Implement Annex 2 indicators #3-6, #8, #10, #11b, #13, #14 as additional cxca Measure resources (currently 5-7 of 14 implemented)."
   - "Extract Ch. 4 (HPV vaccination) — primary prevention, outside WHO Table 1 scope, but a natural extension to the cxca DAK."
-  - "Author an L3 Questionnaire derived from anamnesis-intake (Op.Inst. 5.1) — currently deferred."
   - "Obtain the full 2011 MOH Order 168 to anchor the pre-2020 'from' state."
   - "Watch for any post-2026 ministerial order successor to A/641; nationwide HPV roll-out (Unitaid + Government of Japan funding) is a likely trigger."
-  - |
-    Build a translation-provenance trail for SME critique: a bilingual
-    side-by-side document keyed to L2 anchors, showing for each L2-relevant
-    section the original Mongolian, the English translation, and the L2
-    representation. This makes the L1->L2 derivation auditable independently
-    of the L2->L3 derivation. Existing assets to fold in (and verify, since
-    they are first-pass artifacts dated 2026-04-26 and may not match the
-    deeper extraction reflected in this 2026-05-06 L2):
-      - dak-authoring-methodology/country-level/mongolia/Mongolia_MOH_Cervical_Cancer_Guideline_Ch2_Ch5_EN.docx
-      - dak-authoring-methodology/country-level/mongolia/Mongolia_MOH_Cervical_Cancer_Algorithms_EN.docx
-      - dak-authoring-methodology/country-level/mongolia/translated-mongolia-protocols-and-forms.md
-    Scope: L2-relevant sections only (Ch. 2, Ch. 5, Op.Inst. 5.1, Annex 1,
-    Annex 2). Estimated effort 30-50 pages of bilingual markdown.
+  - "Verify with a Mongolian medical-translation SME: (a) 'бэлтгэлийн хугацаанд' = 'preparatory period' interpretation in Ch. 2.2.1; (b) ЭИМ-5.1/5.2 vs ЭИМ-5а..5е distinction; (c) the duplicate #11 numbering in Annex 2 is a source typo, not two distinct metrics."
+  - "Glandular cell categorization (Annex 5, p. 158) has 5+ distinct subcategories collapsed into the L2's single AGC token in cytology_result. Decide whether to expand axes.cytology_result or to add a separate `bethesda_2014_findings` axis for the full classification."
   - |
     Full word-for-word translation of A/641 (chapters outside L2 scope —
     Ch. 1 intro/anatomy, Ch. 3 community engagement, Ch. 4 HPV vaccination,
