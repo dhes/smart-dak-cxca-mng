@@ -53,10 +53,10 @@ Usage:       #definition
 // Same CQL library as the legal-binding artifact — different define expression
 * library   = "http://smart.who.int/cxca/Library/CXCAD2DTScreeningEligibilityLogic"
 
-// Action: if "Client is due for HPV screening at age 30" is true, propose an HPV ServiceRequest
-* action[0].title        = "Recommend HPV high-risk DNA screening for woman at programmatic target age (Mongolia overlay)"
-* action[0].description  = "Per the April 2025 Cervical Cancer Elimination Programme launch, Mongolia announced HPV screening at ages 30 and 40. If the client is at the programmatic target age of 30 and meets eligibility, create a proposed ServiceRequest for HPV high-risk DNA testing. Note: this is a programmatic position only; A/641 §2.2 (35/45) remains legally binding."
+// Action: if "Client is due for HPV screening (programmatic)" is true, propose an HPV ServiceRequest
+* action[0].title        = "Recommend HPV high-risk DNA screening at programmatic target age (Mongolia overlay)"
+* action[0].description  = "Per the April 2025 Cervical Cancer Elimination Programme launch, Mongolia announced HPV screening at ages 30 and 40. If the client is at one of those programmatic target ages, has not had a hysterectomy, and has not been screened in the current cycle, create a proposed ServiceRequest for HPV high-risk DNA testing. Note: this is a programmatic position only; A/641 §2.2 (35/45) remains legally binding."
 * action[0].condition[0].kind                 = #applicability
 * action[0].condition[0].expression.language  = #text/cql-identifier
-* action[0].condition[0].expression.expression = "Client is due for HPV screening at age 30"
+* action[0].condition[0].expression.expression = "Client is due for HPV screening (programmatic)"
 * action[0].definitionCanonical               = "http://smart.who.int/cxca/ActivityDefinition/CXCAD2HPVScreeningServiceRequest"
