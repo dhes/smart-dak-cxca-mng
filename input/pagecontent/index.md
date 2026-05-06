@@ -5,47 +5,52 @@
 </div>{:.stu-note}
 
 
-### Summary 
-<mark>[Add content here. You could use as reference the previously published DAKs]</mark>
+### Summary
+
+This Implementation Guide is a community contribution to the WHO SMART Guidelines ecosystem covering **cervical cancer screening**. It is structured to be SMART-conformant at the publication boundary (FHIR profiles, CQL libraries, FSH, the CPG/CRMI/SDC/CQF Measures stack) so that downstream tooling and Community of Practice reviewers can consume it on familiar terms. It is **not a WHO publication**.
+
+The DAK uses Mongolia MOH Order A/641 (2020) as a country-adaptation case study to demonstrate four methodology contributions: a **bindingness model** distinguishing legal vs. programmatic vs. operational regulatory positions; a **NotDone pattern** for explicit loss-to-follow-up tracking; a **NotDone-aware cascade-completion eCQM**; and a **lab-capacity-as-selector axis** for facility-conditional eligibility branching. See the [Adapting Guidelines for Country Use](adapting.html) page for the methodology in depth.
 
 ### L1 Narrative guidelines
-<mark>[Add content here. You could use as reference the previously published DAKs]</mark>
+
+The clinical content in this DAK derives from:
+
+- **Mongolia MOH Order A/641** (2020), *Comprehensive Cervical Cancer Surveillance Guideline* (Cyrillic title: Умайн хүзүүний хорт хавдрын цогц хяналтын заавар), signed 31 December 2020 by Health Minister T. Münkhsaikhan. The legally binding national instrument.
+- **WHO 2021** *Guideline for screening and treatment of cervical pre-cancer lesions for cervical cancer prevention*, second edition. The L1 source for global cervical content.
+- **WHO Mongolia** news release of 22 April 2025 (Cervical Cancer Elimination Programme launch) and feature story of 16 April 2026 (Khan-Uul HPV-DNA pilot conclusion). Sources for evolving programmatic and operational positions tracked via the bindingness model.
 
 ### L2 Operational guidelines
-The DAK for <mark>[insert health domain here]</mark> and the associated implementations tools can be found here:
 
-<!-- insert the IRIS link inside the parentheses below. The link is available only after the PDF is published on WHO IRIS. --->
-- [Published DAK Document]()
-
-<!-- insert the link to each implementation tool inside the corresponding parentheses below. Replace "<mark>[health domain abbreviation]</mark>" with the appropriate health domain abbreviation. --->
+This DAK is a community contribution and is not (yet) published in the WHO IRIS catalogue. The repository and implementation tools are available at the project repository.
 
 - Implementation tools:
 
-   - [Link to the editable files of business processes, in .bpmn format](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/business-processes.html)
+   - [Link to the editable files of business processes, in .bpmn format](https://smart.who.int/dak-cxca/business-processes.html)
    
-   - [Link to core data dictionary](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/dictionary.html)
+   - [Link to core data dictionary](https://smart.who.int/dak-cxca/dictionary.html)
  
-   - [Link to decision support logic](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/decision-logic.html) 
+   - [Link to decision support logic](https://smart.who.int/dak-cxca/decision-logic.html) 
 
-   - [Link to scheduling logic](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/scheduling-logic.html)
+   - [Link to scheduling logic](https://smart.who.int/dak-cxca/scheduling-logic.html)
 
-   - [Link to indicators table](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/indicators.html)
+   - [Link to indicators table](https://smart.who.int/dak-cxca/indicators.html)
  
-   - [Link to functional and non functional requirements](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/system-requirements.html)
+   - [Link to functional and non functional requirements](https://smart.who.int/dak-cxca/system-requirements.html)
 
    
 
 ### L3 Machine readable guidelines
-The L3 FHIR Implementation Guide for the <mark>[insert health domain here]</mark> SMART Guidelines is yet to be published. Links will be published here as soon as they're available.
+The L3 FHIR Implementation Guide for the cervical cancer screening SMART Guidelines is yet to be published. Links will be published here as soon as they're available.
 
 ### L4 Executable guidelines
-Reference implementations representing the L4 layer for the <mark>[insert health domain here]</mark> SMART Guidelines are not yet available. Links will be published here as soon as they're available.
+Reference implementations representing the L4 layer for the cervical cancer screening SMART Guidelines are not yet available. Links will be published here as soon as they're available.
 
 ### L5 Dynamic guidelines
-Content representing the L5 layer for the <mark>[insert health domain here]</mark> SMART Guidelines are not yet available. Links will be published here as soon as they're available.
+Content representing the L5 layer for the cervical cancer screening SMART Guidelines are not yet available. Links will be published here as soon as they're available.
 
 ### Contact Us
-<p>Please let us know about your experience in using the DAK and questions you may have by contacting us at <a href= "mailto:SMART@who.int?subject = DAK Feedback">SMART@who.int</a></p>
+
+Feedback and issues can be submitted via the [GitHub issues page](https://github.com/dhes/smart-dak-cxca/issues) for this DAK.
 
 ### License
 This work is licensed under a
@@ -57,7 +62,7 @@ This work is licensed under a
 [cc-by-image]: https://i.creativecommons.org/l/by-nc-sa/3.0/igo/88x31.png
 [cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%203.0-lightgrey.svg
 
-For more license details please see the [license page](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/license.html).
+For more license details please see the [license page](https://smart.who.int/dak-cxca/license.html).
 
 ### Providing Feedback
 {% include feedback.md %}

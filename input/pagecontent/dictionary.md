@@ -1,23 +1,8 @@
-Component 5 in the Digital Adaptation Kit (DAK) for <mark>[insert health domain here]</mark> outlines the minimum set of data corresponding to different points of the workflow within the identified business processes. The data set can be used on any software system and lists the data elements relevant for service delivery and executing decision-support logic, and for populating indicators and performance metrics.<br>
-The table below presents the versions of the data dictionary.
+The data dictionary for this DAK defines the clinical concepts referenced across the screening pathway, recall logic, and pre-cancer management decisions. It is published as a FHIR `CodeSystem` rather than the more familiar xlsx artifact — this DAK defers xlsx generation to a future iteration.
 
-| Version | Link |
-|---|---|
-| current* | [<mark>health domain abbreviation</mark> DAK_core data dictionary.xlsx](<mark>health domain abbreviation</mark> DAK_core data dictionary.xlsx) |
-|1.0.0 | [<mark>health domain abbreviation</mark> DAK_core data dictionary.xlsx](https://smart.who.int/dak-<mark>health domain abbreviation</mark>/v1.0.0/<mark>health domain abbreviation</mark> DAK_core data dictionary.xlsx) |
-|0.9.9 | [<mark>health domain abbreviation</mark> DAK_core data dictionary.xlsx](https://smart.who.int/dak-<mark>health domain abbreviation</mark>/v0.9.9/<mark>health domain abbreviation</mark> DAK_core data dictionary.xlsx) |
+The active artifacts are:
 
-*The current link indicates the latest release of the file. Note: the file's latest release might not always match the release number of the Implementation Guide.
+- **CodeSystem [`CXCA.D`](CodeSystem-CXCA.D.html)** — currently 45 codes (DE1–DE45) covering target ages, screening tests, eligibility outcomes, Bethesda 2014 cytology categories, HPV result values, recall reasons, and procedure codes.
+- **CodeSystem [`CXCA.Bindingness`](CodeSystem-CXCA.Bindingness.html)** — the cxca-specific bindingness vocabulary (`legal` | `programmatic` | `operational`) that drives the `cxca-bindingness` Extension distinguishing legally-binding artifacts from programmatic and operational overlays.
 
-<!-- An example of how this table looks for the data dictionary of IMMZ DAK, after release v1.0.0:
-
-| Version | Link |
-|---|---|
-| current* | [IMMZ DAK_core data dictionary.xlsx](IMMZ DAK_core data dictionary.xlsx) |
-|1.0.0 | [IMMZ DAK_core data dictionary.xlsx](https://smart.who.int/dak-immz/v1.0.0/IMMZ DAK_core data dictionary.xlsx) |
-|0.9.9 | [IMMZ DAK_core data dictionary.xlsx](https://smart.who.int/dak-immz/v0.9.9/IMMZ DAK_core data dictionary.xlsx) |
-
--->
-
-
-
+For the full artifact inventory see the [Artifact Index](artifacts.html). For background on the methodology contributions that motivated these vocabularies — particularly the bindingness CodeSystem — see [Adapting Guidelines for Country Use](adapting.html).

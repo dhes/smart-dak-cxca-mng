@@ -1,3 +1,5 @@
-Non-functional requirements provide the general attributes and features of the digital system to ensure usability and overcome technical and physical constraints. Examples of non-functional requirements include providing password-protected access for authorized users, logging all data and system errors, and provide the ability to easily back up information.
+Non-functional requirements describe the general attributes and qualities of the digital system — usability, performance, security, recoverability — needed to overcome technical and physical constraints.
 
-Non-functional requirements are listed in the high-level functional and non-functional requirements implementation tool of the WHO Digital Adaptation Kit for <mark>[insert health domain here]</mark>, available [here](system-requirements.html).
+This DAK does not currently ship a formal non-functional-requirements artifact. Authoring is deferred to a later iteration. Implementation contexts that need formal non-functional documentation should derive it from the operational reality of the deployment environment (e.g., remote-aimag connectivity for Mongolia outreach scenarios, password / role-based access for the screening registry, audit logging for cancer-incidence reporting under CXCA.IND.08).
+
+For the broader [System Requirements](system-requirements.html) page see the parent.

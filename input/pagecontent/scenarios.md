@@ -1,12 +1,10 @@
-Component 3 in the Digital Adaptation Kit includes user scenarios, which are narratives that describe how the different personas may interact with each other and with the digital system. The user scenario is provided to help the reader better understand how the system will be used and how it would fit into existing workflows.
+User scenarios in this DAK are realized as **example fixtures** — synthetic patient data that exercises the decision logic end-to-end. Authors and reviewers use these fixtures to verify the CDS chain (LogicalModel → Questionnaire → CQL → PlanDefinition → ActivityDefinition) produces the expected outcomes.
 
-Please consult chapter 3 from <mark>[insert health domain here]</mark> DAK where all scenarios are presented.
+The active scenario fixtures are:
 
-**How to interpret user scenarios**
+- **First-encounter, never-screened** — [`example-mng-woman-35`](Patient-example-mng-woman-35.html) (a 35-year-old Mongolian woman) with [`Example.CXCAD2.QuestionnaireResponse.NeverScreened35`](QuestionnaireResponse-Example.CXCAD2.QuestionnaireResponse.NeverScreened35.html). Demonstrates the eligibility decision firing the "Due for HPV screening" outcome.
+- **Loss-to-follow-up after HPV+** — [`example-mng-woman-37-ltfu`](Patient-example-mng-woman-37-ltfu.html) (a 37-year-old Mongolian woman) with [an HPV+ Observation](Observation-example-observation-hpv-positive-ltfu37.html) and a [paired ServiceRequest documenting non-occurrence](ServiceRequest-example-servicerequest-notrequested-ltfu37.html) using the [`CXCAServiceNotRequested`](StructureDefinition-cxca-servicenotrequested.html) profile. Models one of the 187 LTFU women from the April 2026 Khan-Uul pilot.
 
-User scenarios can be helpful tools not only to better understand the context in which a digital tool would operate, but also for some insights into what key data elements would need to be recorded and accounted for in the database. Additionally, the context in which the tool would operate, illuminated by the user scenarios, provides insight into some functional and non-functional requirements that the system would also need.
+Additional scenarios (full anamnesis fixtures, hysterectomy-excluded, cytology-pathway client, HPV+ with cytology re-read positive routing to colposcopy, etc.) are deferred to later iterations as the corresponding artifacts mature.
 
-As examples, the scenarios identify: 
-- key data elements that need to be recorded and/or calculated;
-- decision-support logic that can be automated in the system;
-- key functional and non-functional requirements that should be included in the system.
+For the methodology rationale linking these scenarios to the bindingness model and the NotDone pattern, see [Adapting Guidelines for Country Use](adapting.html).

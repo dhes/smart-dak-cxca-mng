@@ -1,13 +1,7 @@
-A business process, or process, is a set of related activities or tasks 
-performed together to achieve the objectives of the health programme area, 
-such as registration, counselling, referrals. Workflows are a visual 
-representation of the progression of activities (tasks, events, interactions) 
-that are performed within the business process. The workflow provides a “story” 
-for the business process being diagrammed and is used to enhance communication 
-and collaboration among users, stakeholders and engineers. The workflows included in this DAK depict processes that have been generalized across different contexts and may not reflect the variability and nuances across different settings. The simplicity of the workflow may not adequately illustrate the nonlinear steps that may occur.
+A business process is a set of related activities or tasks performed together to achieve the objectives of a health programme area — for example, the cervical cancer screening visit, the recall workflow, the follow-up cascade. Workflows are visual representations of the progression of activities and provide a "story" for the business process being modeled.
 
+This DAK does not currently ship BPMN business-process diagrams. The decision logic and recall logic that would normally be wrapped in a BPMN orchestration are encoded directly as FHIR PlanDefinitions (see [Decision-support Logic](decision-logic.html)) and consumed in their natural integration points (Encounter at chart-open, Periodic batch sweep for recall).
 
-For more details, please see component 4 "Generic business processes and workflows" in the WHO Digital Adaptation Kit (DAK) for <mark>[insert health domain here]</mark>.
+BPMN authoring is deferred to a later iteration. The orchestration that BPMN would document — *first encounter → anamnesis → eligibility → screening order → result handling → recall on timeout* — is implicit in the existing PlanDefinitions and the recall scheduling logic. Concrete BPMN files would help reviewers visualize that orchestration but are not load-bearing for the executable artifacts.
 
-<!-- Insert below the link to the archive uploaded in ...input/business-processes -->
-The source files of the business processes designed for this DAK can be downloaded [here](<mark>[health domain abbreviation]</mark> DAK_BPMN files.zip).
+For the methodology rationale, particularly around how the recall scheduling layer pairs with the NotDone pattern, see [Adapting Guidelines for Country Use](adapting.html).

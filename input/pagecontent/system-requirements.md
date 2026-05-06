@@ -1,16 +1,5 @@
-The table below presents the versions of the high-level functional and non-functional requirements implementation tool published as part of the <mark>[insert health domain here]</mark> DAK. 
+Functional and non-functional requirements describe the capabilities the system must have and the qualities those capabilities must satisfy. In a SMART DAK these are typically published as an xlsx artifact alongside the data dictionary and decision-support logic.
 
-| Version | Link |
-|---|---|
-| current* | [<mark>[health domain abbreviation]</mark> high-level functional and non-functional requirements.xlsx](<mark>[health domain abbreviation]</mark> DAK_high-level functional and non-functional requirements.xlsx) |
-|1.0.0 | [<mark>[health domain abbreviation]</mark> DAK_high-level functional and non-functional requirements.xlsx](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/v1.0.0/<mark>[health domain abbreviation]</mark> DAK_high-level functional and non-functional requirements.xlsx) |
-|0.9.9 | [<mark>[health domain abbreviation]</mark> DAK_high-level functional and non-functional requirements.xlsx](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/v0.9.9/<mark>[health domain abbreviation]</mark> DAK_high-level functional and non-functional requirements.xlsx) |
+This DAK does not currently ship a system-requirements xlsx. Authoring formal functional and non-functional requirements is deferred to a later iteration. The decision logic and recall scheduling that the system must support are encoded as FHIR PlanDefinitions and CQL Libraries (see [Decision-support Logic](decision-logic.html)); the data the system must capture is encoded as FHIR LogicalModels and Questionnaires (see [Data Dictionary](dictionary.html)).
 
-*The current link indicates the latest release of the file. Note: the file's latest release might not always match the release number of the Implementation Guide.
-
-### Functional Requirements
-{% include functional-requirements.md %}
-
-
-### Non-functional Requirements
-{% include non-functional-requirements.md %}
+Implementation contexts that need formal functional and non-functional requirements documents in the WHO DAK style should derive them from the artifacts referenced above. For the methodology rationale on what this DAK contributes, see [Adapting Guidelines for Country Use](adapting.html).

@@ -1,36 +1,26 @@
-This implementation guide is meant to facilitate operationalization of the World Health Organization (WHO) Digital Adaptation Kit (DAK) for <mark>[insert health domain here]</mark>. 
+This DAK references the following sources, both for clinical content and for the methodology contributions documented at [Adapting Guidelines for Country Use](adapting.html).
 
-The DAK for <mark>[insert health domain here]</mark> and the associated implementations tools can be found here:
+### Clinical sources
 
-<!-- insert the IRIS link inside the parentheses below. The link is available only after the PDF is published on WHO IRIS. --->
-- [Published DAK Document]()
+- **Mongolia Ministry of Health.** *Comprehensive Cervical Cancer Surveillance Guideline*, Ministerial Order A/641, signed 31 December 2020 by Health Minister T. Münkhsaikhan (Cyrillic title: Умайн хүзүүний хорт хавдрын цогц хяналтын заавар). The legally binding national instrument that this DAK encodes.
+- **WHO 2021.** *Guideline for screening and treatment of cervical pre-cancer lesions for cervical cancer prevention*, second edition. The L1 source for global cervical content.
+- **WHO Mongolia.** *Mongolia launches national programme to eliminate cervical cancer*, news release, 22 April 2025. The April 2025 programmatic position (HPV at ages 30 and 40), encoded in this DAK as a programmatic-overlay PlanDefinition.
+- **WHO Mongolia.** *MOH and WHO concludes pilot on HPV testing for cervical cancer screening in Mongolia*, feature story, 16 April 2026. The April 2026 Khan-Uul pilot operational realities (5,382 tested, 371 HPV+, 184 cytology, 187 LTFU); the empirical motivation for the cascade-completion eCQM and the NotDone pattern.
+- **UNFPA Asia-Pacific Regional Office & Cancer Council NSW.** *Mongolia: Cervical Cancer Elimination — Country Review & Roadmap for Action*, January 2022. Analytical groundwork for the April 2025 launch.
 
-<!-- insert the link to each implementation tool inside the corresponding parentheses below. Replace "<mark>[health domain abbreviation]</mark>" with the appropriate health domain abbreviation. --->
+### Methodology sources
 
-- Implementation tools:
+- **Mehl, Haskew, et al.** *A full-STAC remedy for global digital health transformation*. The four-quadrant framework (Open Standards, Open Technologies, Open Architectures, Open Content) used as the framing for this DAK.
+- **McClure et al. 2020.** *Igniting Harmonized Digital Clinical Quality Measurement through Terminology, CQL, and FHIR*. Appl Clin Inform 11:23–33. The harmonization commitment that drives the shared CXCAElements CQL layer.
 
-   - [Link to the editable files of business processes, in .bpmn format](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/business-processes.html)
-   
-   - [Link to core data dictionary](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/dictionary.html)
- 
-   - [Link to decision support logic](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/decision-logic.html) 
+### WHO guideline development resources
 
-   - [Link to scheduling logic](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/scheduling-logic.html)
+- [WHO SMART Guidelines](https://www.who.int/teams/digital-health-and-innovation/smart-guidelines) — overview of the SMART Guidelines approach
+- [WHO Handbook for guideline development](https://www.who.int/publications/i/item/9789241548960) — WHO guideline development and publication process
 
-   - [Link to indicators table](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/indicators.html)
- 
-   - [Link to functional and non functional requirements](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/system-requirements.html)
+### Tutorials and reference materials
 
-For additional resources, see the <a href="dependencies.html">Dependencies</a> page, which includes the standards referenced in this implementation guide and the references section in the published DAK for <mark>[insert health domain here]</mark>.
+- [SMART IG starter kit](https://worldhealthorganization.github.io/smart-ig-starter-kit/) — orientation to the SMART IG authoring stack
+- [Open Health Information Exchange (OpenHIE) Architecture](https://guides.ohie.org/arch-spec/architecture-specification/overview-of-the-architecture) — candidate Open Architectures pattern (per the Full-STAC framing)
 
-
-### WHO guideline development
-    
--   [WHO SMART Guidelines](https://www.who.int/teams/digital-health-and-innovation/smart-guidelines) - provides an overview of the SMART Guidelines approach
-
--   [WHO Handbook for guideline development](https://www.who.int/publications/i/item/9789241548960)- provides an overview of the WHO guideline development and publication process
-
-### Tutorials and reference materials for developers
-- [References section of the SMART IG starter kit](https://worldhealthorganization.github.io/smart-ig-starter-kit/references.html#2)
-
--   [Open Health Information Exchange (OpenHIE) Specification and Architecture](https://guides.ohie.org/arch-spec/architecture-specification/overview-of-the-architecture)
+For dependencies and FHIR-stack references, see the [Dependencies](dependencies.html) page.

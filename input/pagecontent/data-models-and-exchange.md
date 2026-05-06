@@ -1,29 +1,22 @@
 This section contains the data models and data exchange protocols with actors and transactions defined. It is part of the L3 machine-readable knowledge representation.
 
-The pages included in this section are described below. 
+The pages included in this section are described below.
 
-- [**Actors**](personas.html) - A list and description of software or human entities that interact with the system, derived from business requirements defined in the L2. 
-- [**Sequence Diagrams**](sequence-diagrams.html) - Sequence diagrams depicting the interactions between system actors, in order, derived from business processes in the L2.
-- [**Transactions**](transactions.html) - A defined list of system transactions at an atomic level for each actor along with narrative, capability statements, structure definition, questionnaires, document bundles and composition. It may also refer to transactions in other implementation guides.
-- [**Logical Models**](#) - A StructureDefinition resource that describes data element definitions and their associated rules of usage, derived from the data dictionary in the L2.
-- [**Indicators and Measures**](indicators-measures.html) - A thematic list of indicators defined in the implementation guide that link to L1 and L2 guidance documents. 
+- [**System Actors**](system-actors.html) — software or human entities that interact with the system, derived from business requirements at the L2 level.
+- [**Sequence Diagrams**](sequence-diagrams.html) — interactions between system actors, derived from business processes at L2.
+- [**Transactions**](transactions.html) — system transactions at an atomic level for each actor.
+- [**Indicators and Measures**](indicators-measures.html) — the indicators defined in this IG.
 
-### Design Documentation -DRAFT-
-The documentation below details how to use this IG to execute the decision logic and the resources required to do so including PlanDefinitions, ActivityDefinitions, ValueSets, and Libraries.
+### Design notes
 
-#### PlanDefinitions
-<mark>insert content here</mark> has been represented as a FHIR PlanDefinition conformant to the FHIR Clinical Practice Guidelines Implementation guide [CPG-ComputablePlanDefinition](http://hl7.org/fhir/uv/cpg/StructureDefinition/cpg-computableplandefinition). For example, there is a PlanDefinition for Hepatitis A, Measles, etc. The intention behind this design is for each implementation to utilize only the antigens that are required for their national/local context, as many countries have national vaccine routines, which may leverage the WHO guidance. The aim of this content was to be adaptable for those contexts. 
+The decision logic in this DAK is represented as FHIR PlanDefinition resources conformant to the [CPG-on-FHIR Computable Plan Definition profile](http://hl7.org/fhir/uv/cpg/StructureDefinition/cpg-computableplandefinition). Each PlanDefinition references one or more CQL Library resources via canonical URL; library content is base64-encoded CQL embedded in the Library resource. PlanDefinition actions reference CQL `define` statements by name in their condition expressions.
 
-These PlanDefinitions can be found in the [Artifact Index](artifacts.html)
+Each clinical workflow step that produces an order is represented as an ActivityDefinition (`kind = #ServiceRequest` for screening test orders, `kind = #CommunicationRequest` for recall reminders). PlanDefinition actions invoke ActivityDefinitions via `definitionCanonical`; at runtime, the ActivityDefinition is instantiated into a real FHIR resource (e.g., a `ServiceRequest` for HPV testing with `intent = #proposal`).
 
-#### ActivityDefinitions
-To represent the activities that need to be carried out, this implementation guide follows the workflow patterns established by the base FHIR specification. Each antigen represented as a PlanDefinition will be processed to produce ActivityDefnitions conform to the FHIR Clinical Practice Guidelines Implementation guide [CPG-ActivityProfiles](http://hl7.org/fhir/uv/cpg/profiles.html#activity-profiles).
+The CQL Libraries follow a layered pattern adapted from WHO IMMZ: a shared `CXCAElements` library at the substrate level (consumed by both decision-support and quality-measure libraries — the harmonization point per the McClure paper) and per-decision logic libraries above it. See [Adapting Guidelines for Country Use](adapting.html) for the methodology rationale.
 
+### CodeSystems and value sets
 
-#### FHIR Library
-The FHIR Library contains a base64 encoded CQL library which represents the decision logic as a series of boolean clauses. Each PlanDefinition and Measure will reference a Library from which each decision point can be made and specify which expression from the CQL is used to trigger a decision in PlanDefinition or where to retrieve data to create the MeasureReport in the Measure, repsectively.
+The data dictionary [`CXCA.D`](CodeSystem-CXCA.D.html) is the primary CodeSystem; the bindingness vocabulary [`CXCA.Bindingness`](CodeSystem-CXCA.Bindingness.html) is the second. Where this DAK references concepts that have canonical homes elsewhere (FHIR core code systems, LOINC, SNOMED CT, ICD-10), it does so by URL without re-defining them locally; ConceptMaps bridging local concepts to upstream code systems are deferred to a later iteration.
 
-#### ValueSets
-Many of the ValueSets used in this IG are  from [CPG on FHIR](https://hl7.org/fhir/uv/cpg/) and the [IPS](https://hl7.org/fhir/uv/ips/). There are a number of generated ValueSets based on the user scenarios detailed in this IG.
-
-There is one exception to that format which is the vaccine libraries, which map the codes between a variety of different systems including SNOMED GPS and WHO ATC in order to allow implementers to search for any vaccine which might be applicable to their user. More details on this approach is provided below. 
+For the full artifact inventory see the [Artifact Index](artifacts.html).

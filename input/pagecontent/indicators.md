@@ -1,23 +1,17 @@
-This page includes indicators and performance metrics that would be aggregated from core data elements identified and extracted from the WHO Digital Adaptation Kit (DAK) for <mark>[insert health domain here]</mark>. 
-These indicators may be aggregated automatically from the digital tracking tool to populate a digital health management information system (HMIS). 
+The indicators encode A/641 (2020) Annex 2 metrics as machine-readable FHIR Measure resources, plus methodology-contribution indicators that surface programme realities the standard Annex 2 metrics do not (notably loss-to-follow-up cascade completion). The xlsx form is deferred to a future iteration.
 
-The table below presents the versions of the indicators implementation tool published as part of the <mark>[insert health domain here]</mark> DAK. 
+The active indicator artifacts (7 Measures):
 
-| Version | Link |
-|---|---|
-| current* | [<mark>[health domain abbreviation]</mark> DAK_indicators.xlsx](<mark>[health domain abbreviation]</mark> DAK_indicators.xlsx) |
-|1.0.0 | [<mark>[health domain abbreviation]</mark> DAK_indicators.xlsx](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/v1.0.0/<mark>[health domain abbreviation]</mark> DAK_indicators.xlsx) |
-|0.9.9 | [<mark>[health domain abbreviation]</mark> DAK_indicators.xlsx](https://smart.who.int/dak-<mark>[health domain abbreviation]</mark>/v0.9.9/<mark>[health domain abbreviation]</mark> DAK_indicators.xlsx) |
+| Indicator | A/641 source | Type | Artifact |
+|---|---|---|---|
+| **CXCA.IND.01** — Coverage at age 35 | Annex 2 #6 | proportion | [Measure-CXCAIND01](Measure-CXCAIND01.html) |
+| **CXCA.IND.02** — Cascade completion (NotDone-aware) | methodology contribution | proportion with NumeratorExclusion | [Measure-CXCAIND02](Measure-CXCAIND02.html) |
+| **CXCA.IND.03** — Invitation attendance rate | Annex 2 #4 | proportion | [Measure-CXCAIND03](Measure-CXCAIND03.html) |
+| **CXCA.IND.04** — Coverage at age 45 | Annex 2 #6 (second age) | proportion | [Measure-CXCAIND04](Measure-CXCAIND04.html) |
+| **CXCA.IND.06** — HPV-positive result rate | Annex 2 #11 | proportion | [Measure-CXCAIND06](Measure-CXCAIND06.html) |
+| **CXCA.IND.07** — Treatment completion rate | Annex 2 #12 | proportion | [Measure-CXCAIND07](Measure-CXCAIND07.html) |
+| **CXCA.IND.08** — New cervical cancer cases by age | Annex 2 #13 | continuous-variable | [Measure-CXCAIND08](Measure-CXCAIND08.html) |
 
-*The current link indicates the latest release of the file. Note: the file's latest release might not always match the release number of the Implementation Guide.
+CXCA.IND.02 is the methodology-contribution measure — see [Adapting Guidelines for Country Use](adapting.html) for the cascade-completion rationale, which uses the Phase 4 NotDone profile to distinguish documented loss-to-follow-up from absent records. The remaining Annex 2 indicators (#5 cytology cycle coverage, #9 first-time-screening level, #10/11 raw counts, #14 cancer-suspected care completion) follow the same trio pattern (CQL + Library + Measure) and are deferred to later iterations.
 
-For machine-readable representations, see the <a href="indicators-measures.html">Indicators and Measures</a>. 
-
-<!-- An example of how this table looks for the IMMZ DAK indicators, after release v1.0.0:
-
-| Version | Link |
-|---|---|
-| current* | [IMMZ DAK_indicators.xlsx](IMMZ DAK_indicators.xlsx) |
-|1.0.0 | [IMMZ DAK_indicators.xlsx](https://smart.who.int/dak-immz/v1.0.0/IMMZ DAK_indicators.xlsx) |
-|0.9.9 | [IMMZ DAK_indicators.xlsx](https://smart.who.int/dak-immz/v0.9.9/IMMZ DAK_indicators.xlsx) |
--->
+For machine-readable presentation see [Indicators and Measures](indicators-measures.html).

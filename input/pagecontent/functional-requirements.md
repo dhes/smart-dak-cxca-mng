@@ -1,7 +1,3 @@
-Functional requirements describe the capabilities the system must have in order to meet the end-users’ needs and achieve tasks within the business process.
+Functional requirements describe the capabilities the system must have in order to meet the end-users' needs and execute tasks within the business process.
 
-The functional requirements are listed in the high-level functional and non-functional requirements implementation tool of the WHO Digital Adaptation Kit for <mark>[insert health domain here]</mark>, available [here](system-requirements.html).
-
-Please note that these are not exhaustive lists and should be modified according to context and user persona needs.
-
-{% include fragment-functionalrequirements.liquid %}
+This DAK does not currently ship a formal functional-requirements artifact. The decision logic that defines what the system must compute and surface is documented in [Decision-support Logic](decision-logic.html); the data shapes the system must capture are documented in [Data Dictionary](dictionary.html). For the broader [System Requirements](system-requirements.html) page see the parent.
