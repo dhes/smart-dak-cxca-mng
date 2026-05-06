@@ -109,3 +109,16 @@ Description: "Data elements for the cervical cancer screening Digital Adaptation
 // Additional clinical procedures (for ActivityDefinition order codes)
 // -----------------------------------------------------------------------------
 * #DE37 "Colposcopy" "A diagnostic procedure in which the cervix is examined under magnification (typically with acetic acid application) to identify lesions for biopsy. Per A/641 Op.Inst. 5.6."
+
+// -----------------------------------------------------------------------------
+// Recall reasons — A/641 §2.3 timeout-based reminder triggers
+// Used as the reasonCode on the CommunicationRequest issued by the
+// CXCAD18SRecallScheduling PlanDefinition.
+// -----------------------------------------------------------------------------
+* #DE38 "Recall: HPV sample result timeout (3 weeks)" "Recall trigger: an HPV sample was dispatched to the lab more than 3 weeks ago and no result has been entered into the registry. Per A/641 §2.3, this triggers a reminder to follow up with the lab and (if the result is in but not yet entered) the entering staff."
+* #DE39 "Recall: positive result follow-up timeout (4 weeks)" "Recall trigger: a positive screening result was entered into the registry more than 4 weeks ago and no follow-up examination has been recorded. Per A/641 §2.3, this triggers a reminder to the patient and the obstetrician-gynaecologist."
+* #DE40 "Recall: biopsy result timeout (4 weeks)" "Recall trigger: a biopsy sample was received at the lab more than 4 weeks ago and no histopathology result has been entered. Per A/641 §2.3."
+* #DE41 "Recall: treatment timeout after positive biopsy (4 weeks)" "Recall trigger: a positive biopsy result has been entered for more than 4 weeks and no treatment record exists. Per A/641 §2.3."
+* #DE42 "Recall: cytology slide unread timeout (2 weeks)" "Recall trigger: a cytology slide was received at the lab more than 2 weeks ago and no cytologist conclusion has been entered. Per A/641 §2.3."
+* #DE43 "Recall: second reminder (4 weeks after first)" "Recall trigger: a first reminder was sent more than 4 weeks ago and the underlying gap remains unresolved. Per A/641 §2.3 a second reminder should issue."
+* #DE44 "Recall: missed scheduled examination" "Recall trigger: the patient had a scheduled examination that they did not attend. Per A/641 §2.3, immediate flag — does not wait for a timeout."
