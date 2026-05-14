@@ -7,7 +7,7 @@
     "desc": "0.0.1 pre-release — Phase 1 scaffolding only",
     "mode": "milestone",
     "path": "http://smart.who.int/cxca/v0.0.1",
-    "ci-build": "http://dhes.github.io/smart-dak-cxca",
+    "ci-build": "http://dhes.github.io/smart-dak-cxca-mng",
     "first": true,
     "status": "draft",
     "sequence": "Releases"

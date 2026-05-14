@@ -6,7 +6,7 @@ ministerial order on cervical cancer surveillance in Mongolia.
 
 The L1 layer (Layer 1 in the WHO SMART Guidelines model) is the narrative
 and tabular source-of-truth that the L2 representation
-(`smart-dak-cxca/input/L2/cervical-cancer-mng-moh-2020.yaml`) derives from.
+(`smart-dak-cxca-mng/input/L2/cervical-cancer-mng-moh-2020.yaml`) derives from.
 The L3 FHIR/CQL artifacts in `input/fsh/` and `input/cql/` in turn derive
 from the L2.
 

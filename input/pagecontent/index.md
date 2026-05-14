@@ -44,7 +44,7 @@ L5 dynamic-knowledge content is out of scope for this DAK.
 
 ### Contact Us
 
-Feedback and issues can be submitted via the [GitHub issues page](https://github.com/dhes/smart-dak-cxca/issues) for this DAK.
+Feedback and issues can be submitted via the [GitHub issues page](https://github.com/dhes/smart-dak-cxca-mng/issues) for this DAK.
 
 ### License
 This work is licensed under a
